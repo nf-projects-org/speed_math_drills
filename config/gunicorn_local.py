@@ -3,7 +3,7 @@
 
 wsgi_app = "speedmathsdrills.wsgi:application"
 
-loglevel = "error"
+loglevel = "info"
 
 workers =2
 
@@ -17,6 +17,6 @@ errorlog = "/var/log/gunicorn/speedmathsdrills.com.log"
 
 capture_output = True
 
-pidfile = "/var/run/gunicorn.pid"
+pidfile = "./gunicorn.pid"
 
 daemon = False
