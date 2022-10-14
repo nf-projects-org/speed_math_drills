@@ -2,3 +2,13 @@
 {%block title%}
 Home - SMD
 {%endblock title%}
+
+{%block main%}
+<h1> Home Page</h1>
+{% if user.is_authenticated%}
+    <p>Hi {{user.email}}! </p>
+{% else %}
+    <p>You are not logged in</p>
+    <a href="{%url 'login' %}">Log in</a>
+{% endif %}
+{%endblock main%}
