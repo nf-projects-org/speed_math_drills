@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['speedmathsdrills.com','143.198.240.201','127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,14 +36,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # Third-Party
     'crispy_forms',
     'crispy_bootstrap5',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.twitter',
     # Local
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
 ]
 
+# Allauth config
+SITE_ID = 2
+
+# Crispy Forms config
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
@@ -60,6 +69,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'speedmathsdrills.urls'
+LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = "home"
 
 TEMPLATES = [
     {
@@ -140,6 +150,18 @@ STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "accounts.SmdUser"
 
-LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = "home"
+# Authentication + All Auth Config
+
+AUTH_USER_MODEL = "accounts.SmdUser"
+ACCOUNT_LOGOUT_REDIRECT = LOGOUT_REDIRECT_URL
+AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend", "allauth.account.auth_backends.AuthenticationBackend")
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+

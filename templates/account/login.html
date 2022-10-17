@@ -1,4 +1,5 @@
 {% extends "_base.html" %}
+{% load socialaccount %}
 {% load crispy_forms_tags %}
 {%block title %} Log In
 {%endblock title %}
@@ -10,4 +11,8 @@
     {{form|crispy }}
     <button type="submit" class="btn btn-success">Log In</button>
 </form>
+<p><a href="{% provider_login_url 'google' %}">Log In with google</a></p>
+<p><a href="{% provider_login_url 'twitter' %}" >Log In with twitter</a></p>
+
+
 {% endblock main %}

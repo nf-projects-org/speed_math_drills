@@ -9,6 +9,6 @@ Home - SMD
     <p>Hi {{user.email}}! </p>
 {% else %}
     <p>You are not logged in</p>
-    <a href="{%url 'login' %}">Log in</a>
+    <a href="{%url 'account_login' %}">Log in</a>
 {% endif %}
 {%endblock main%}
