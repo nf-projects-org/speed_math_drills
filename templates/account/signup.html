@@ -1,13 +1,28 @@
 {% extends "_base.html" %}
+{% load static %}
+{% load socialaccount %}
 {% load crispy_forms_tags %}
-{%block title%} Sign Up
-{%endblock title%}
+{% block head_title%}Sign Up
+{% endblock head_title %}
 
 {% block main %}
-<h2>Sign Up</h2>
-<form method="post">
-    {% csrf_token %}
-    {{form|crispy}}
-    <button type="submit" class="btn btn-success">Sign Up</button>
-</form>
+<div class="container col-sm-4 px-4 py-5">
+    <p class="small">By proceeding, you are setting up a Speed Maths Drills account and agree to our <a href="{%url 'terms-service' %}">Terms of Service</a> and <a href="{%url 'privacy-policy' %}">Privacy Policy</a>.</p>
+    <div class="container py-4 my-4 border-top border-bottom">
+        <div class="row">
+            <div class="col-sm text-center fw-lighter">
+                <a href="{% provider_login_url 'google' %}" ><img class="border mx-2" src="{% static 'img/social/google/google.png' %}" ></a>
+                <a href="{% provider_login_url 'twitter' %}" ><img class="border mx-2" src="{% static 'img/social/twitter/twitter.png'%}"></a>          
+            </div>
+        </div>
+    </div>
+    <div class="container-sm">
+        <form method="post">
+            {% csrf_token %}
+            {{form|crispy }}
+            <button type="submit" class="btn btn-success w-100 ">Sign Up</button>
+        </form>
+    </div>
+</div>
+
 {% endblock main %}
