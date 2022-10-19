@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from environs import Env
 
+env = Env()
+env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i6clw-z)t-$-u0!je4g*4t2ju@qo2y$v#r9)20b-g&chdoelo+'
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG")
 
-ALLOWED_HOSTS = ['speedmathsdrills.com','143.198.240.201','127.0.0.1']
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
 
 # Application definition
 
@@ -68,8 +71,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'speedmathsdrills.urls'
-LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = "home"
+ROOT_URLCONF = env("DJANGO_ROOT_URLCONF")
+
+LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = "pages:home"
 
 TEMPLATES = [
     {
@@ -87,7 +91,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'speedmathsdrills.wsgi.application'
+WSGI_APPLICATION = env("DJANGO_WSGI_APPLICATION")
 
 
 # Database
@@ -96,10 +100,10 @@ WSGI_APPLICATION = 'speedmathsdrills.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'speedmathsdrills',
-        'USER' : 'speedmathsdrills',
-        'PASSWORD': 'Carerra01',
-        'HOST' : 'localhost',
+        'NAME': env("DJANGO_DB_NAME"),
+        'USER' : env("DJANGO_DB_USER"),
+        'PASSWORD': env("DJANGO_DB_PASSWORD"),
+        'HOST' : env('DJANGO_DB_HOST'),
         'PORT': '',
         'TEST': {'NAME':'test_speedmathsdrills'},
     }
@@ -155,11 +159,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "accounts.SmdUser"
 ACCOUNT_LOGOUT_REDIRECT = LOGOUT_REDIRECT_URL
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "home"
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "pages:home"
 #ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https" 
 
 AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend", "allauth.account.auth_backends.AuthenticationBackend")
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD")
+
+EMAIL_HOST = env("DJANGO_EMAIL_HOST")
+
+EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER") 
+EMAIL_PORT = env("DJANGO_EMAIL_PORT")
+EMAIL_USE_SSL = True
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "SMD | "
 
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
@@ -169,3 +181,4 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 
 SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
+DEFAULT_FROM_EMAIL = env("DJANGO_DEFAULT_FROM_EMAIL")

@@ -1,0 +1,6 @@
+{% autoescape off %}Hello from {{ current_site.name }}!
+
+{% block content %}{% endblock %}
+
+Thanks for using {{ current_site.name }} !
+{% endautoescape %}

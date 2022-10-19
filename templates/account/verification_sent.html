@@ -1,0 +1,18 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load socialaccount %}
+{% load crispy_forms_tags %}
+{%block head_title %}Confirm Email
+{%endblock head_title %}
+
+{% block main%}
+
+<div class="container col-sm-4 px-4 py-5">
+    <div class="container-sm">
+        <h2>Verify your email address</h2>
+        <p>We've sent you an email for verification. Please follow the link to finish the signup process.</p>
+        <p class="small py-3">If you can't find the email in your inbox or spam folder, please contact us on contact@speedmathsdrills.com</p>
+    </div>
+</div>
+
+{% endblock main %}

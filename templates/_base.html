@@ -52,19 +52,19 @@
   {%block navigation%}
   <div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-      <a href="{% url 'home' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+      <a href="{% url 'pages:home' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
         <img class="bi me-2" width="40" height="40" src="{% static 'icon.png'%}">
         <span class="fs-4">Speed Maths Drills</span>
       </a>
       <ul class="nav nav-pills">
-        <li class="nav-item"><a href="{% url 'home' %}" class="nav-link" aria-current="page">Home</a></li>
-        <li class="nav-item"><a href="{% url 'home' %}" class="nav-link" aria-current="page">Stats</a></li>
+        <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Home</a></li>
+        <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Stats</a></li>
       </ul>
         {% if user.is_authenticated %}
         <div class="dropdown">
             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><img class="h-100" src="{% static 'img/social/avatar_profile_icon.svg'%}"></a>
             <ul class="dropdown-menu  gap-1 p-2 rounded-3 mx-0 shadow w-220px">
-              <li><a class="dropdown-item rounded-2" href="{%url 'account_change_password' %}">Change password</a></li>
+              <li><a class="dropdown-item rounded-2" href="{%url 'accounts:user-settings' %}">User Settings</a></li>
               <li><a class="dropdown-item rounded-2" href="#">2</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a href="{% url 'account_logout' %}" class="dropdown-item rounded-2">Logout</a></li>            </ul>
@@ -81,14 +81,14 @@
 
   {%block messages %}
   {% if messages %}
-  <div>
-    <strong>Messages:</strong>
-    <ul>
       {% for message in messages %}
-      <li>{{message}}</li>
+      <div class="container">
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+          <span class="small">{{message}}</span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>          </button>
+        </div>  
+      </div>
       {% endfor %}
-    </ul>
-  </div>
   {% endif %}
   {%endblock messages %}
   
@@ -122,7 +122,7 @@
   <div class="container small">
     <footer class="py-5">
       <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-        <p>© 2022 Speed Maths Drills. | <a href="{% url 'privacy-policy' %}">Privacy</a> | <a href="{% url 'terms-service' %}">Terms</a></p>
+        <p>© 2022 Speed Maths Drills. | <a href="{% url 'pages:privacy-policy' %}">Privacy</a> | <a href="{% url 'pages:terms-service' %}">Terms</a></p>
         <ul class="list-unstyled d-flex">
           <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
           <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
@@ -139,6 +139,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>  <script src="{% static 'js/vendor/modernizr-3.11.2.min.js'%}"></script>
   <script src="{% static 'js/plugins.js'%}"></script>
   <script src="{% static 'js/main.js' %}"></script>
+
+  {% block extra_body %}
+
+  {% endblock extra_body %}
 
 </body>
 
