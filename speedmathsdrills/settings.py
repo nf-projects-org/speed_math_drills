@@ -168,7 +168,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "accounts.SmdUser"
 ACCOUNT_LOGOUT_REDIRECT = LOGOUT_REDIRECT_URL
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "pages:home"
-#ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https" 
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = env("DJANGO_ACCOUNT_DEFAULT_HTTP_PROTOCOL")
 
 AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend", "allauth.account.auth_backends.AuthenticationBackend")
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
