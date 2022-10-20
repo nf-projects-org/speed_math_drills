@@ -5,7 +5,7 @@ from pages.views import HomePageView
 class HomePageTests(SimpleTestCase):
     def setUp(self):
         url = reverse("pages:home")
-        self.response = self.client.get(url)
+        self.response = self.client.get(url,{},True)
 
     def test_url_exists_at_correct_location(self):
         self.assertEqual(self.response.status_code, 200)
