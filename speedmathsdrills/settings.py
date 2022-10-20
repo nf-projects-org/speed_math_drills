@@ -62,7 +62,7 @@ INSTALLED_APPS = [
 ]
 
 # Allauth config
-SITE_ID = 1
+SITE_ID = env.int("DJANGO_SITE_ID")
 
 # Crispy Forms config
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
