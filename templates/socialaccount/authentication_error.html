@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load socialaccount %}
+{% load crispy_forms_tags %}
+{%block head_title %}Login Failure
+{%endblock head_title %}
+
+{% block main%}
+
+<div class="container col-sm-4 px-4 py-5">
+    <div class="container-sm">
+        <p class="small py-2">Oops something broke while trying to log you in</p>
+    </div>
+</div>
+
+{% endblock main %}

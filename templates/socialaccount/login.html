@@ -1,0 +1,29 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load socialaccount %}
+{% load crispy_forms_tags %}
+{%block head_title %}Log In
+{%endblock head_title %}
+
+{% block main%}
+
+<div class="container col-sm-4 px-4 py-5">
+    {% if process == "connect" %}
+    <h2>Connect {{ provider.name }}</h2>
+
+    <p>You are about to connect your account from {{ provider.name }}.</p>
+    {% else %}
+    <h2>Sign In Via {{ provider.name }}</h2>
+    
+    <p>You are about to sign in using your account from {{ provider.name }}.</p>
+    {% endif %}
+    <p class="">By proceeding, you agree to our <a href="{%url 'pages:terms-service' %}">Terms of Service</a> and <a href="{%url 'pages:privacy-policy' %}">Privacy Policy</a>.</p>
+    
+        <form method="post">
+            {% csrf_token %}
+            {{form|crispy }}
+            <button type="submit" class="btn btn-success w-100 ">Log In</button>
+        </form>  
+</div>
+
+{% endblock main %}

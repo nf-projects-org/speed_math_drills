@@ -182,3 +182,8 @@ ACCOUNT_UNIQUE_EMAIL = True
 
 SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
 DEFAULT_FROM_EMAIL = env("DJANGO_DEFAULT_FROM_EMAIL")
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
