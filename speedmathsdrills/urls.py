@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls), #Django Admin
+    path('charmant/', admin.site.urls), #Django Admin
     path("accounts/", include("allauth.urls")), #User management    
     path("", include("pages.urls")), #Static pages
     path("", include("accounts.urls")) #User settings
