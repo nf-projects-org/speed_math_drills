@@ -30,7 +30,7 @@ class SignUpTests(TestCase):
 
     def setUp(self):
         url = reverse("account_signup")
-        self.response = self.client.get(url)
+        self.response = self.client.get(url,{},True)
     
     def test_signup_template(self):
         self.assertEqual(self.response.status_code, 200)
