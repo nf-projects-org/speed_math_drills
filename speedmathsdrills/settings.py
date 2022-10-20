@@ -62,7 +62,7 @@ INSTALLED_APPS = [
 ]
 
 # Allauth config
-SITE_ID = 2
+SITE_ID = 1
 
 # Crispy Forms config
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
