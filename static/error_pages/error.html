@@ -1,28 +1,20 @@
-{% load static %}
-{% load account %}
 <!doctype html>
 <html class="no-js" lang="en">
 
 <head>
   <meta charset="utf-8">
-  <title>{% block head_title %} Speed Maths Drills{% endblock head_title %}</title>
+  <title>Speed Maths Drills</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  {%block open-graph %}
-  <meta property="og:title" content="Speed Maths Drills">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://speedmathsdrills.com">
-  <meta property="og:image" content="{% static 'icon.png' %}">
-  {%endblock open-graph %}
 
-  <link rel="manifest" href="{% static 'site.webmanifest' %}">
-  <link rel="apple-touch-icon" href="{% static 'icon.png' %}">
+  <link rel="manifest" href="https://speedmathsdrills.com/static/site.webmanifest">
+  <link rel="apple-touch-icon" href="https://speedmathsdrills.com/static/icon.png">
   <!-- Place favicon.ico in the root directory -->
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-  <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
-  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="https://speedmathsdrills.com/static/css/normalize.css">
+  <link rel="stylesheet" href="https://speedmathsdrills.com/static/css/main.css">
 
   <meta name="theme-color" content="#6A5ACD">
   <!-- Google tag (gtag.js) -->
@@ -34,7 +26,6 @@
 
     gtag('config', 'G-LKY6QB619W');
   </script>
-  {%block add_head %}{% endblock add_head %}
 </head>
 
 <body>
@@ -49,59 +40,33 @@
       <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
     </symbol>
   </svg>
-  {%block navigation%}
   <div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-      <a href="{% url 'pages:home' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <img class="bi me-2" width="40" height="40" src="{% static 'icon.png'%}">
+      <a href="https://speedmathsdrills.com" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <img class="bi me-2" width="40" height="40" src="https://speedmathsdrills.com/static/icon.png">
         <span class="fs-4">Speed Maths Drills</span>
       </a>
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Home</a></li>
-        <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Stats</a></li>
-      </ul>
-        {% if user.is_authenticated %}
-        <div class="dropdown">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><img class="h-100" src="{% static 'img/social/avatar_profile_icon.svg'%}"></a>
-            <ul class="dropdown-menu  gap-1 p-2 rounded-3 mx-0 shadow w-220px">
-              <li><a class="dropdown-item rounded-2" href="{%url 'accounts:user-settings' %}">User Settings</a></li>
-              <li><a class="dropdown-item rounded-2" href="#">2</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a href="{% url 'account_logout' %}" class="dropdown-item rounded-2">Logout ({{user.email}})</a></li>
-            </ul>
-        </div>
-        {% else %}
-          <a href="{% url 'account_login' %}" class="btn btn-primary me-2">Login</a></li>
-          <a href="{% url 'account_signup' %}" class="btn btn-outline-success me-2">Sign Up</a>
-        {% endif %}
-
     </header>
   </div>
-  {%endblock navigation%}
-
-  {%block messages %}
-  {% if messages %}
-      {% for message in messages %}
-      <div class="container">
-        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
-          <span class="small">{{message}}</span>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>          </button>
-        </div>  
-      </div>
-      {% endfor %}
-  {% endif %}
-  {%endblock messages %}
   
-  <main>
-  {%block main%}
-  {%endblock main%}
-  </main>
+  <div class="container col-sm-4 px-4 py-5">
+    <h2 class=""><!--# echo var="status" default="" --> <!--# echo var="status_text" default="Something goes wrong" --></h2>
+    <p>Oops, that's not supposed to happen, but it did.</p>
+    <p>You have two options, choose wisely.</p>
+    <ul>
+      <li>Email us at contact@speedmathsdrills.com and tell us what went wrong</li>
+      <li>Try refreshing the page. It doesn't really work but you're going to do it anyway</li>
+      <li>Take a break and do something else</li>
+    </ul>
+    <p>Yes, that was three.</p>
+  </div>
 
-  {% block footer%}
+
+
   <div class="container small">
     <footer class="py-5">
       <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-        <p>© 2022 Speed Maths Drills. | <a href="{% url 'pages:privacy-policy' %}">Privacy</a> | <a href="{% url 'pages:terms-service' %}">Terms</a></p>
+        <p>© 2022 Speed Maths Drills. </p>
         <ul class="list-unstyled d-flex">
           <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
           <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
@@ -111,17 +76,13 @@
     </footer>
   </div>
 
-  {%endblock footer%}
 
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>  <script src="{% static 'js/vendor/modernizr-3.11.2.min.js'%}"></script>
-  <script src="{% static 'js/plugins.js'%}"></script>
-  <script src="{% static 'js/main.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>  <script src="https://speedmathsdrills.com/static/js/vendor/modernizr-3.11.2.min.js"></script>
+  <script src="https://speedmathsdrills.com/static/js/plugins.js"></script>
+  <script src="https://speedmathsdrills.com/static/js/main.js"></script>
 
-  {% block extra_body %}
-
-  {% endblock extra_body %}
 
 </body>
 
