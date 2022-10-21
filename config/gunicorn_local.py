@@ -21,4 +21,4 @@ capture_output = True
 
 pidfile = "./gunicorn.pid"
 
-daemon = False
+daemon = True
