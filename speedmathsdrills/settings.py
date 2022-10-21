@@ -215,3 +215,5 @@ LOGGING = {
         },
     },
 }
+
+ADMINS = [('Nigel','nigel@navidani.com')]
