@@ -4,36 +4,49 @@
 Speed Maths Drills
 {%endblock head_title%}
 
-{%block navigation%}
-<div class="container">
-  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-    <a href="{% url 'pages:home' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-      <img class="bi me-2" width="40" height="40" src="{% static 'icon.png'%}">
-      <span class="fs-4">Speed Maths Drills</span>
-    </a>
-    <ul class="nav nav-pills">
-      <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Home</a></li>
-    </ul>
-      {% if user.is_authenticated %}
-      <div class="dropdown">
-          <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><img class="h-100" src="{% static 'img/social/avatar_profile_icon.svg'%}"></a>
-          <ul class="dropdown-menu  gap-1 p-2 rounded-3 mx-0 shadow w-220px">
-            <li><a class="dropdown-item rounded-2" href="{%url 'accounts:user-settings' %}">User Settings</a></li>
-            <li><a class="dropdown-item rounded-2" href="#">2</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a href="{% url 'account_logout' %}" class="dropdown-item rounded-2">Logout ({{user.email}})</a></li>            </ul>
-      </div>
-      {% else %}
-      {% endif %}
-    </div>
-
-  </header>
-</div>
-{%endblock navigation%}
 
 {%block main%}
+
+{% if user.is_authenticated %}
 <main>
-  <div class="container col-xl-10 col-xxl-8 px-4 py-5" >
+  <div class="container p-2" >
+    <div class="d-flex flex-row justify-content-sm-center justify-content-md-between">
+      <div class="col  border">
+        <div class="text-center">Drills</div>
+      </div>    
+      <div class="col ">
+        <div class="text-end display-3"><span>123</span></div>
+        <div class="text-end display-3  border-bottom border-1"><span>+ 123</span></div>
+        <div class="text-end display-3  border-bottom border-1"><span>246</span></div>
+      </div>
+    </div>
+    <div class="keyboard-container col">
+      <section class="keyboard-row row p-0">
+        <div class="col border-bottom border-end border-2 w-100 h-100 align-middle text-center h4"><span>1</span></div>
+        <div class="col border-bottom border-end border-2 w-100 h-100 align-middle text-center h4"><span>2</span></div> 
+        <div class="col border-bottom  border-2 w-100 h-100 align-middle text-center h4"><span>3</span></div>
+      </section>
+      <section class="keyboard-row row p-0">
+        <div class="col border-bottom border-end border-2 w-100 h-100 align-middle text-center h4"><span>4</span></div>
+        <div class="col border-bottom border-end  border-2 w-100 h-100 align-middle text-center h4"><span>5</span></div> 
+        <div class="col border-bottom  border-2 w-100 h-100 align-middle text-center h4"><span>6</span></div>
+      </section>
+      <section class="keyboard-row row p-0">
+        <div class="col border-bottom border-end border-2 w-100 align-middle text-center h4"><span>7</span></div>
+        <div class="col border-bottom border-end border-2 w-100 align-middle text-center h4"><span>8</span></div> 
+        <div class="col border-bottom  border-2 w-100 align-middle text-center h4"><span>9</span></div>
+      </section>
+      <section class="keyboard-row row p-0">
+        <div class="col  border-end border-2 w-100 align-middle text-center h4"><span>CLR</span></div>
+        <div class="col  border-end border-2 w-100 align-middle text-center h4"><span>0</span></div> 
+        <div class="col   border-2 w-100 align-middle text-center h4"><span>DEL</span></div>
+      </section>
+    </div>
+  </div>
+</main>
+{% else %}
+<main>
+  <div class="container px-4 py-5" >
     <div class="row align-items-center g-lg-5 py-5">
       <div class="col-lg-7 text-center text-lg-start">
         <h1 class="display-4 fw-bold lh-1 mb-3">Get faster at mental maths</h1>
@@ -54,4 +67,5 @@ Speed Maths Drills
     </div>
   </div>
 </main>
+{% endif %}
 {%endblock main%}

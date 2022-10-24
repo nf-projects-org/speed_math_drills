@@ -50,33 +50,50 @@
     </symbol>
   </svg>
   {%block navigation%}
-  <div class="container">
-    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-      <a href="{% url 'pages:home' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+  <nav class="navbar " aria-label="Navigation">
+    <div class="container-fluid">
+      <a href="{% url 'pages:home' %}" class="d-flex align-items-center  text-dark text-decoration-none">
         <img class="bi me-2" width="40" height="40" src="{% static 'icon.png'%}">
         <span class="fs-4">Speed Maths Drills</span>
       </a>
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Home</a></li>
-        <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Stats</a></li>
-      </ul>
-        {% if user.is_authenticated %}
-        <div class="dropdown">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><img class="h-100" src="{% static 'img/social/avatar_profile_icon.svg'%}"></a>
-            <ul class="dropdown-menu  gap-1 p-2 rounded-3 mx-0 shadow w-220px">
-              <li><a class="dropdown-item rounded-2" href="{%url 'accounts:user-settings' %}">User Settings</a></li>
-              <li><a class="dropdown-item rounded-2" href="#">2</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a href="{% url 'account_logout' %}" class="dropdown-item rounded-2">Logout ({{user.email}})</a></li>
-            </ul>
-        </div>
-        {% else %}
-          <a href="{% url 'account_login' %}" class="btn btn-primary me-2">Login</a></li>
-          <a href="{% url 'account_signup' %}" class="btn btn-outline-success me-2">Sign Up</a>
-        {% endif %}
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    </header>
-  </div>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLightLabel">Speed Maths Drills</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">   
+          <ul class="navbar-nav me-auto mb-2">
+            <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Stats</a></li>
+            {% if user.is_authenticated %}
+            <li class="nav-item"><a href="{%url 'accounts:user-settings' %}" class="nav-link" aria-current="page">Settings</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" aria-current="page">2</a></li>
+            <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link" aria-current="page">Logout ({{user.email}})</a></li>
+            {% else %}
+            <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link" aria-current="page">Login</a></li>
+            <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link" aria-current="page">Sign Up</a></li>
+            {% endif %}
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form role="search">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
   {%endblock navigation%}
 
   {%block messages %}
@@ -92,20 +109,17 @@
   {% endif %}
   {%endblock messages %}
   
-  <main>
   {%block main%}
   {%endblock main%}
-  </main>
-
   {% block footer%}
   <div class="container small">
-    <footer class="py-5">
-      <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+    <footer>
+      <div class="d-flex flex-column flex-sm-row justify-content-center py-4 my-4 border-top">
         <p>© 2022 Speed Maths Drills. | <a href="{% url 'pages:privacy-policy' %}">Privacy</a> | <a href="{% url 'pages:terms-service' %}">Terms</a></p>
         <ul class="list-unstyled d-flex">
-          <li class="ms-3 "><a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button align-middle" data-show-count="false">Tweet</a></li><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-          <li class="ms-3 " ><div class="snapchat-creative-kit-share align-middle"></div></li>
-          <li class="ms-3 "><div class="fb-share-button align-middle" data-href="https://speedmathsdrills.com" data-layout="button_count"></div></li>
+          <li class="mx-3 align-top "><a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button align-middle" data-show-count="false">Tweet</a></li><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+          <li class="mx-3 align-top" ><div class="snapchat-creative-kit-share align-middle"></div></li>
+          <li class="mx-3 align-top"><div class="fb-share-button align-middle" data-href="https://speedmathsdrills.com" data-layout="button_count"></div></li>
         </ul>
       </div>
     </footer>
