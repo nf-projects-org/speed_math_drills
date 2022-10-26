@@ -20,6 +20,7 @@ urlpatterns = [
     path('charmant/', admin.site.urls), #Django Admin
     path("accounts/", include("allauth.urls")), #User management    
     path("", include("pages.urls")), #Static pages
-    path("", include("accounts.urls")) #User settings
+    path("", include("accounts.urls")), #User settings
+    path("drills/", include("drills.urls")) #Drills htmx endpoint
 ]
 

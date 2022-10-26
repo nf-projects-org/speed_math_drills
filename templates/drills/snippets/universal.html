@@ -1,0 +1,10 @@
+{%load static%}
+<div class="text-center" >        
+{% if all_drills %}
+{% for drill in all_drills %}
+<p>{{drill.name}}</p>
+{% endfor %}
+<script src="{% static 'js/universaldrills.js' %}" defer></script>
+{{ all_drills_json | json_script}}
+{% endif %}
+</div>
