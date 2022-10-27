@@ -25,8 +25,8 @@ class UniversalDrill(models.Model):
         verbose_name_plural = 'Universal Drills'
     
     def __str__(self):
-        return "[" + str(self.first_param_start) +", "+ str(self.first_param_end) +"] "  + str(OPERATION_CHOICES_DICT[self.operation]) \
-        + " [" + str(self.second_param_start) +", "+ str(self.second_param_end) +"] - " + self.name + " | " + str( CATEGORY_CHOICES_DICT[self.category])
+        return self.name + " | " + str( CATEGORY_CHOICES_DICT[self.category]) + " [" + str(self.first_param_start) +", "+ str(self.first_param_end) +"] "  + str(OPERATION_CHOICES_DICT[self.operation]) \
+        + " [" + str(self.second_param_start) +", "+ str(self.second_param_end) +"]" 
 
 class UserDrill(models.Model):
     user = models.ForeignKey(SmdUser, models.CASCADE, related_name='Owner', )
@@ -43,5 +43,5 @@ class UserDrill(models.Model):
         verbose_name_plural = 'User Drills'
     
     def __str__(self):
-        return "[" + str(self.first_param_start) +", "+ str(self.first_param_end) +"] "  + str(OPERATION_CHOICES_DICT[self.operation]) \
-        + " [" + str(self.second_param_start) +", "+ str(self.second_param_end) +"] - " + self.name + " | " + self.category
+        return self.name + " | " + self.category + " [" + str(self.first_param_start) +", "+ str(self.first_param_end) +"] "  + str(OPERATION_CHOICES_DICT[self.operation]) \
+        + " [" + str(self.second_param_start) +", "+ str(self.second_param_end) +"]" 

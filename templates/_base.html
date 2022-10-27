@@ -50,48 +50,47 @@
       <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
     </symbol>
   </svg>
+  <div class="container">
   {%block navigation%}
+  
   <nav class="navbar " aria-label="Navigation">
-    <div class="container-fluid">
-      <a href="{% url 'pages:home' %}" class="d-flex align-items-center  text-dark text-decoration-none">
-        <img class="bi me-2" width="40" height="40" src="{% static 'icon.png'%}">
-        <span class="fs-4">Speed Maths Drills</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <a href="{% url 'pages:home' %}" class="d-flex align-items-center  text-dark text-decoration-none">
+      <img class="bi me-2" width="40" height="40" src="{% static 'icon.png'%}">
+      <span class="fs-4">Speed Maths Drills</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLightLabel">Speed Maths Drills</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">   
+        <ul class="navbar-nav me-auto mb-2">
+          <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Home</a></li>
+          <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Stats</a></li>
+          {% if user.is_authenticated %}
+          <li class="nav-item"><a href="{%url 'accounts:user-settings' %}" class="nav-link" aria-current="page">Settings</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" aria-current="page">2</a></li>
+          <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link" aria-current="page">Logout ({{user.email}})</a></li>
+          {% else %}
+          <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link" aria-current="page">Login</a></li>
+          <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link" aria-current="page">Sign Up</a></li>
+          {% endif %}
 
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLightLabel">Speed Maths Drills</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">   
-          <ul class="navbar-nav me-auto mb-2">
-            <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Home</a></li>
-            <li class="nav-item"><a href="{% url 'pages:home' %}" class="nav-link" aria-current="page">Stats</a></li>
-            {% if user.is_authenticated %}
-            <li class="nav-item"><a href="{%url 'accounts:user-settings' %}" class="nav-link" aria-current="page">Settings</a></li>
-            <li class="nav-item"><a href="#" class="nav-link" aria-current="page">2</a></li>
-            <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link" aria-current="page">Logout ({{user.email}})</a></li>
-            {% else %}
-            <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link" aria-current="page">Login</a></li>
-            <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link" aria-current="page">Sign Up</a></li>
-            {% endif %}
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-          </ul>
-          <form role="search">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-          </form>
-        </div>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form role="search">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+        </form>
       </div>
     </div>
   </nav>
@@ -100,12 +99,10 @@
   {%block messages %}
   {% if messages %}
       {% for message in messages %}
-      <div class="container">
         <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
           <span class="small">{{message}}</span>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>          </button>
         </div>  
-      </div>
       {% endfor %}
   {% endif %}
   {%endblock messages %}
@@ -113,8 +110,7 @@
   {%block main%}
   {%endblock main%}
   {% block footer%}
-  <div class="container small">
-    <footer>
+    <footer class="small">
       <div class="d-flex flex-column flex-sm-row justify-content-center py-4 my-4 border-top">
         <p>© 2022 Speed Maths Drills. | <a href="{% url 'pages:privacy-policy' %}">Privacy</a> | <a href="{% url 'pages:terms-service' %}">Terms</a></p>
         <ul class="list-unstyled d-flex">
@@ -124,10 +120,9 @@
         </ul>
       </div>
     </footer>
-  </div>
 
   {%endblock footer%}
-
+  </div>
   <script defer src="https://unpkg.com/htmx.org@1.8.2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>  <script src="{% static 'js/vendor/modernizr-3.11.2.min.js'%}"></script>
