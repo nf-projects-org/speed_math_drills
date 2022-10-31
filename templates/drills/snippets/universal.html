@@ -1,33 +1,47 @@
 {%load static%}
-<div class="row text-dark p-1 justify-content-evenly small">
+<div class="drill-select row text-dark  p-1 justify-content-evenly">
 {% if all_drills %}
 
-<div class="col-5">
+<div class="col-4  align-self-center">
+    <select class="form-select small" id="drill-selector">
+        <option class="drill-name" data-uuid="dummy" value="Drills" selected>Drills</option>
+
+    
 {% for drill in all_drills %}
-    <div class="drill-name" id="{{drill.name}}">{{drill.name}}</div>
+        <option class="drill-name" data-uuid="{{drill.id}}" value="{{drill.name}}">{{drill.name}}</option>
 {%endfor%}
+        </select>
+
 </div>
 
-<div class="col-5">
-    {% for drill in all_drills %}
-    <div id="{{drill.name}}_details drill-details" class="d-none">
-        <div class="d-flex flex-row align-items-center justify-content-evenly">
-            <span class="border p-1"> {{drill.first_param_start}}</span>
-            <span class="border p-1">{{drill.first_param_end}}</span>
-            <span class="border p-1">X</span> 
-            <span class="border p-1">RS</span>
-            <span class="border p-1">Play</span>
+<div class="col-6 border rounded p-0 text-center align-middle small">
+    <div data-uuid="dummy" class="drill-details-display">
+        <div class="d-flex flex-row justify-content-between overflow-auto">
+            <div class="p-1 flex-fill drill_first_param_start">..</div>
+            <div class="p-1 flex-fill drill_first_param_end">..</div>
+            <div class="p-1 flex-fill drill_first_param_value border rounded-circle">..</div> 
+            <div class="p-1 flex-fill drill_first_param_shuffle" data-state="off"><img src="{% static 'img/icon/shuffle-outline.svg' %}" width="20"></div>
+            <div class="p-1 flex-fill drill_play_button" data-state="off"><img src="{% static 'img/icon/play-outline.svg' %}" width="20"></div>
+            <div class="d-none drill_operation">..</div>
         </div>    
-        <div class="d-flex flex-row align-items-center justify-content-evenly">
-            <span class="border p-1"> {{drill.second_param_start}}</span>
-            <span class="border p-1">{{drill.second_param_end}}</span>
-            <span class="border p-1">X</span> 
-            <span class="border p-1">RS</span>
-            <span class="border p-1">Stop</span>
+        <div class="d-flex flex-row justify-content-between overflow-auto">
+            <div class="p-1 flex-fill drill_second_param_start">..</div>
+            <div class="p-1 flex-fill drill_second_param_end">..</div>
+            <div class="p-1 flex-fill drill_second_param_value border rounded-circle">..</div> 
+            <div class="p-1 flex-fill drill_second_param_shuffle" data-state="off"><img src="{% static 'img/icon/shuffle-outline.svg' %}" width="20"></div>
+            <div class="p-1 flex-fill drill_stop_button" data-state="on"><img src="{% static 'img/icon/stop-outline.svg' %}" width="20"></div>
         </div>                    
     </div>
+
+    {% for drill in all_drills %}
+    <div data-uuid="{{drill.id}}" class="d-none drill-details"
+        data-drill_first_param_start="{{drill.first_param_start}}"
+        data-drill_first_param_end = "{{drill.first_param_end}}"
+        data-drill_operation = "{{drill.operation}}"
+        data-drill_second_param_start = "{{drill.second_param_start}}"
+        data-drill_second_param_end = "{{drill.second_param_end}}"
+        ></div>
     {%endfor%}
-</div>
 
 {% endif %}
 </div>    
