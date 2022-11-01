@@ -24,7 +24,7 @@ stateCalculationDisplay.keyboardListener = function(keyEvent){
     }
     //check key
     if(keyEvent.key === '1' || keyEvent.key === '2' || keyEvent.key === '3' || keyEvent.key === '4' || keyEvent.key === '5'
-     || keyEvent.key === '6' || keyEvent.key === '7' || keyEvent.key === '8' || keyEvent.key === '9' || keyEvent.key === '0'){
+     || keyEvent.key === '6' || keyEvent.key === '7' || keyEvent.key === '8' || keyEvent.key === '9' || keyEvent.key === '0' || keyEvent.key === '.'){
         if(stateCalculationDisplay.result.innerHTML === '?'){
             result = keyEvent.key;
         }else {
@@ -35,6 +35,7 @@ stateCalculationDisplay.keyboardListener = function(keyEvent){
         return;
     }
     if(keyEvent.key === 'Backspace'|| keyEvent.key === 'Delete'){
+        if(keyEvent.key === 'Backspace'){keyEvent.preventDefault()}
         if(stateCalculationDisplay.result.innerHTML === '?'){return;}
         if(stateCalculationDisplay.result.innerHTML.length == 0){return;}
         if(stateCalculationDisplay.result.innerHTML.length == 1){
@@ -42,6 +43,10 @@ stateCalculationDisplay.keyboardListener = function(keyEvent){
             return;
         }
         stateCalculationDisplay.result.innerHTML = stateCalculationDisplay.result.innerHTML.slice(0,stateCalculationDisplay.result.innerHTML.length -1)
+    }
+    if(keyEvent.code == 'Space'){
+        stateDrillDetailsDisplay.next();
+        return;
     }
 
 };
@@ -59,30 +64,69 @@ stateCalculations.operationsMap.set('x', (a,b) => a*b);
 stateCalculations.operationsMap.set('÷', (a,b) => a/b);
 stateCalculations.operationsMap.set('^', (a,b) => Math.pow(a,b));
 stateCalculations.operationsMap.set('√a', (a,b) => Math.pow(a,1/b));
-stateCalculations.generate = function(){
+stateCalculations.shuffle = function(array){
+    var shuffled = [...array];
+    for (let i = shuffled.length -1; i > 0; i--){
+        let j = Math.floor(Math.random() * (i+1));
+        let temp = shuffled[i];
+        shuffled[i]= shuffled[j];
+        shuffled[j] = temp;
+    }
+    return shuffled;
+};
+stateCalculations.generate = function(firstRandom=false){
+    let firstStart = parseInt( stateDrillDetailsDisplay.first_param_start.innerHTML);
+    let firstEnd = parseInt(stateDrillDetailsDisplay.first_param_end.innerHTML);
+    let secondStart = parseInt(stateDrillDetailsDisplay.second_param_start.innerHTML);
+    let secondEnd = parseInt(stateDrillDetailsDisplay.second_param_end.innerHTML);
+    let firstSequence =[];
+    let secondSequence = [];
     this.first =[];
     this.second=[];
-    this.current_counter=0;
-    
     let counter = 0;
-    for(let i = parseInt( stateDrillDetailsDisplay.first_param_start.innerHTML); i<= parseInt(stateDrillDetailsDisplay.first_param_end.innerHTML); i++){
-        for (let j= parseInt(stateDrillDetailsDisplay.second_param_start.innerHTML); j<= parseInt(stateDrillDetailsDisplay.second_param_end.innerHTML); j++){
-            this.first[counter] = i;
-            this.second[counter] = j;
-            counter++;
-            this.maxCalculation = counter;
-        }
+    for(let i = firstStart; i<= firstEnd; i++){
+        firstSequence[counter]=i;
+        counter++;
     }
+    counter = 0;
+    for(let i = secondStart; i<= secondEnd; i++){
+        secondSequence[counter]=i;
+        counter++;
+    }
+
+    counter = 0;
+    for (let j=0; j < (secondEnd-secondStart+1);j++){
+        let firstTempSequence = firstSequence;
+        if(firstRandom){
+            firstTempSequence = this.shuffle(firstTempSequence);
+        }
+        for (i = 0; i < firstTempSequence.length;i++){
+            this.first[counter] = firstTempSequence[i];
+            this.second[counter] = secondSequence[j];
+            counter++;
+        }    
+    }
+
+    this.current_counter=0;
+    this.maxCalculation = (firstEnd - firstStart +1) * (secondEnd - secondStart+1);
+    console.log(this.first);
+    console.log(this.second);
+    console.log(this);
 };
+
+stateCalculations.isDrillOver = function() {
+    return !(this.current_counter < this.maxCalculation);
+};
+
 stateCalculations.getCurrentResult = function(){
-    if (this.current_counter === this.maxCalculation){return;}
     let retResultFunction = this.operationsMap.get(stateDrillDetailsDisplay.operation.innerHTML);
     let retResult = retResultFunction(this.first[this.current_counter], this.second[this.current_counter]);
     return retResult;
 };
 stateCalculations.nextCalculation = function(){
     this.current_counter++;
-    return this.getCurrentCalculation();
+    if(this.current_counter >= this.maxCalculation){return false;}
+    return true;
 }
 stateCalculations.getCurrentCalculation = function(){
     return {first:this.first[this.current_counter], second:this.second[this.current_counter]};
@@ -92,13 +136,15 @@ stateCalculations.checkResult = function(){
         //flash it in green
         stateCalculationDisplay.result.classList.add("text-success");
         setTimeout(function(){
-            stateCalculations.nextCalculation();
+            if(!stateCalculations.nextCalculation()){
+                return;
+            }
             let currentCalc = stateCalculations.getCurrentCalculation();    
             stateCalculationDisplay.updateFirst(currentCalc.first);
             stateCalculationDisplay.updateSecond(currentCalc.second);
             stateCalculationDisplay.updateResult('?');
             stateCalculationDisplay.result.classList.remove("text-success");
-        }, 1000);
+        }, 750);
 
     }
 }
@@ -107,48 +153,62 @@ stateCalculations.checkResult = function(){
 //Drill Details
 var stateDrillDetailsDisplay = {};
 stateDrillDetailsDisplay.update = function(){
-    stateDrillDetailsDisplay.element = document.querySelector(".drill-details-display")
-    stateDrillDetailsDisplay.first_param_start = stateDrillDetailsDisplay.element.querySelector(".drill_first_param_start");
-    stateDrillDetailsDisplay.first_param_end = stateDrillDetailsDisplay.element.querySelector(".drill_first_param_end");
-    stateDrillDetailsDisplay.operation = stateDrillDetailsDisplay.element.querySelector(".drill_operation") ;
-    stateDrillDetailsDisplay.second_param_start = stateDrillDetailsDisplay.element.querySelector(".drill_second_param_start");
-    stateDrillDetailsDisplay.second_param_end = stateDrillDetailsDisplay.element.querySelector(".drill_second_param_end");
+    this.element = document.querySelector(".drill-details-display")
+    this.first_param_start = this.element.querySelector(".drill_first_param_start");
+    this.first_param_end = this.element.querySelector(".drill_first_param_end");
+    this.operation = this.element.querySelector(".drill_operation") ;
+    this.second_param_start = this.element.querySelector(".drill_second_param_start");
+    this.second_param_end = this.element.querySelector(".drill_second_param_end");
+    this.first_random = this.element.querySelector(".drill_first_param_random");
  };
 stateDrillDetailsDisplay.play =  function(){
+    stateDrillDetailsDisplay.update();    
     //Is a proper drill loaded else return
-    if (stateDrillDetailsDisplay.element.getAttribute('data-uuid') === "dummy"){
+    if (!stateDrillDetailsDisplay.isProperDrill()){
         return;
     }
-//    Is the line below really required    
-//    stateDrillDetailsDisplay.update();    
-
-    //Read the Shuffle buttons
-
     //Generate the sequence of calculations
-    stateCalculations.generate();
+    stateCalculations.generate(stateDrillDetailsDisplay.first_random.checked);
     //Update the display with the first calculation
     stateCalculationDisplay.update(stateCalculations.first[0],stateCalculations.second[0], stateDrillDetailsDisplay.operation.innerHTML,'?');
+    stateCalculationDisplay.result.focus();
 };
 stateDrillDetailsDisplay.next = function() {
     //Is a proper drill loaded else return
     if (stateDrillDetailsDisplay.element.getAttribute('data-uuid') === "dummy"){
         return;
     }
+    if (stateCalculations.isDrillOver()){return;}
+
     let current_result = stateCalculations.getCurrentResult();
     let current_display_result =  parseInt(stateCalculationDisplay.result.innerHTML);
     if( current_display_result === current_result){
-        stateCalculations.nextCalculation();
+        if(!stateCalculations.nextCalculation()){
+            return;
+        }
         let currentCalc = stateCalculations.getCurrentCalculation();    
         stateCalculationDisplay.updateFirst(currentCalc.first);
         stateCalculationDisplay.updateSecond(currentCalc.second);
         stateCalculationDisplay.updateResult('?');
     } else{
         stateCalculationDisplay.updateResult(current_result);
+    }  
+};
+stateDrillDetailsDisplay.random = function(evt) {
+    stateDrillDetailsDisplay.update();
+       //Is a proper drill loaded else return
+   if (!stateDrillDetailsDisplay.isProperDrill()){
+        return;
     }
-
-  
-  
-}
+    stateDrillDetailsDisplay.play();   
+};
+stateDrillDetailsDisplay.isProperDrill = function(){
+    //Is a proper drill loaded else return
+    if (stateDrillDetailsDisplay.element.getAttribute('data-uuid') === "dummy"){
+        return false;
+    }
+    return true;
+};
 
 
 //Drill Selector
@@ -185,6 +245,7 @@ stateDrillSelector.action = function(){
         }
     }
     stateCalculationDisplay.update(0,0, stateDrillDetailsDisplay.operation.innerHTML, '?')
+    stateDrillDetailsDisplay.play();
 }    
   
 
@@ -192,8 +253,8 @@ stateDrillSelector.action = function(){
 document.body.addEventListener('htmx:afterSwap', function (evt){
     if (evt.target.matches(".drill-select")){
         document.getElementById('drill-selector').addEventListener("change", stateDrillSelector.action);
-        document.body.querySelector(".drill_play_button").addEventListener('click',stateDrillDetailsDisplay.play);
         document.body.querySelector(".drill_next_button").addEventListener('click', stateDrillDetailsDisplay.next);
+        document.body.querySelector(".drill_first_param_random").addEventListener('change', stateDrillDetailsDisplay.random);
         document.addEventListener('keydown', stateCalculationDisplay.keyboardListener); 
     }
 });
