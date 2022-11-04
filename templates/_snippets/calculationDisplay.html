@@ -1,0 +1,14 @@
+
+
+
+
+<div class="row text-dark p-1 justify-content-evenly" >
+    <div x-data class="m-2 col-10 border rounded-1">
+      <div class="text-end display-4">
+        <span x-text="$store.stateCalculationDisplay.first" class="display_first" x-bind:class="!$store.stateCalculationDisplay.displayFirst && 'hidden'" ></span>
+        <span x-text="$store.stateCalculationDisplay.operation" class="display_operation"></span>  
+        <span  x-text="$store.stateCalculationDisplay.second" class="display_second" x-bind:class="!$store.stateCalculationDisplay.displaySecond && 'hidden'"></span>
+      </div>
+      <div class="text-end"><input type="number" x-model.number="$store.stateCalculationDisplay.result" x-on:change="$store.stateCalculationDisplay.checkResult" x-bind:class="$store.stateCalculationDisplay.isResultCorrect && 'text-success'" class="display_result text-end fs-4 form-control "></div>
+    </div>
+  </div>

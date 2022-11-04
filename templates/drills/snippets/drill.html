@@ -1,0 +1,30 @@
+{%load static%}
+
+<div class="drill-practice-display row text-dark  p-1 justify-content-evenly">
+    <div class="col-10 border rounded p-0 text-center align-middle small">
+        <div x-data class="drill-details-display">
+            <div class="m-1 d-flex flex-row justify-content-between small">
+                <select class="select-form p-1 mx-1 flex-fill" x-on:change="$store.stateDrillDetailsDisplay.updateDrills" x-model="$store.stateDrillDetailsDisplay.drill" >
+                    <option value="" disabled>Choose</option>
+                    <option class="drill_type">Tables</option>
+                    <option class="drill_type">Squares</option>
+                    <option class="drill_type">Cubes</option>
+                    <option class="drill_type">Fractions</option>
+                    <option class="drill_type">Sq. Roots</option>
+                </select>
+                <input class="p-1 flex-fill text-center" x-bind:readonly="$store.stateDrillDetailsDisplay.isFirstReadonly" x-bind:class="$store.stateDrillDetailsDisplay.isFirstReadonly && 'hidden'" x-bind:class="!$store.stateDrillDetailsDisplay.isFirstValid && 'text-danger'" x-model.number.debounce="$store.stateDrillDetailsDisplay.first" x-on:change="$store.stateDrillDetailsDisplay.processChange" type="number" min="1" max="9999" value="2">
+            </div>
+            <div class="m-1 d-flex flex-row small justify-content-evenly align-middle">
+                <div class="flex-fill text-start">
+                    From:<input class="p-1 flex-fill text-center" x-model.number="$store.stateDrillDetailsDisplay.second_start" x-bind:class="!$store.stateDrillDetailsDisplay.isSecondStartValid && 'text-danger'" x-on:change="$store.stateDrillDetailsDisplay.processChange" type="number" min="1" max="9999" value="2">
+                    To:<input class="p-1 flex-fill text-center" x-model.number="$store.stateDrillDetailsDisplay.second_end" x-bind:class="!$store.stateDrillDetailsDisplay.isSecondEndValid && 'text-danger'" x-on:change="$store.stateDrillDetailsDisplay.processChange" type="number" min="1" max="9999" value="15">
+                </div>   
+                <div class="form-check form-switch p-1  text-end">
+                    <input class="form-check-input" id="drill_random" type="checkbox" x-model="$store.stateDrillDetailsDisplay.random" x-on:change="$store.stateDrillDetailsDisplay.processChange" >
+                    <label class="form-check-label" for="drill_random" >Random order</label>
+                </div>
+
+            </div>                    
+        </div>
+    </div>    
+</div>

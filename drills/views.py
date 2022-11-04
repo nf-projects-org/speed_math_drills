@@ -3,7 +3,8 @@ from .models import UniversalDrill
 from django.template.response import TemplateResponse
 from django.core import serializers
 
-def UniversalDrill_view(request):
-    all_drills = UniversalDrill.objects.all()
-    all_drills_json = serializers.serialize("json", all_drills )
-    return TemplateResponse(request, 'drills/snippets/universal.html', {'all_drills':all_drills, 'all_drills_json':all_drills_json})
+def DrillSession_view(request):
+    return TemplateResponse(request, 'drills/snippets/drill.html')
+
+def PracticeSession_view(request):
+    return TemplateResponse(request, 'drills/snippets/practice.html')

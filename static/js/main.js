@@ -1,178 +1,176 @@
-//Initialize state
-
-//Calculations Display
-var stateCalculationDisplay = {};
-stateCalculationDisplay.first = document.body.querySelector(".display_first");
-stateCalculationDisplay.operation = document.body.querySelector(".display_operation");
-stateCalculationDisplay.second = document.body.querySelector(".display_second");
-stateCalculationDisplay.result = document.body.querySelector(".display_result");
-stateCalculationDisplay.updateFirst = function(first){stateCalculationDisplay.first.innerHTML = first;};
-stateCalculationDisplay.updateSecond = function(second){stateCalculationDisplay.second.innerHTML = second;};
-stateCalculationDisplay.updateOperation = function(operation){stateCalculationDisplay.operation.innerHTML = operation;};
-stateCalculationDisplay.updateResult = function(result){stateCalculationDisplay.result.innerHTML = result;};
-stateCalculationDisplay.update = function(first=0, second=0, operation='x', result='?'){
-
-    stateCalculationDisplay.updateFirst(first);
-    stateCalculationDisplay.updateSecond(second);
-    stateCalculationDisplay.updateOperation(operation);
-    stateCalculationDisplay.updateResult(result);
-};
-stateCalculationDisplay.keyboardListener = function(keyEvent){
-    //Is a valid drill on
-    if(stateCalculationDisplay.first.innerHTML == 0 && stateCalculationDisplay.second.innerHTML == 0){
-        return;
-    }
-    //check key
-    if(keyEvent.key === '1' || keyEvent.key === '2' || keyEvent.key === '3' || keyEvent.key === '4' || keyEvent.key === '5'
-     || keyEvent.key === '6' || keyEvent.key === '7' || keyEvent.key === '8' || keyEvent.key === '9' || keyEvent.key === '0' || keyEvent.key === '.'){
-        if(stateCalculationDisplay.result.innerHTML === '?'){
-            result = keyEvent.key;
-        }else {
-            result = stateCalculationDisplay.result.innerHTML + keyEvent.key;
-        }
-        stateCalculationDisplay.updateResult(result);
-        stateCalculations.checkResult();
-        return;
-    }
-    if(keyEvent.key === 'Backspace'|| keyEvent.key === 'Delete'){
-        if(keyEvent.key === 'Backspace'){keyEvent.preventDefault()}
-        if(stateCalculationDisplay.result.innerHTML === '?'){return;}
-        if(stateCalculationDisplay.result.innerHTML.length == 0){return;}
-        if(stateCalculationDisplay.result.innerHTML.length == 1){
-            stateCalculationDisplay.result.innerHTML = '?'
-            return;
-        }
-        stateCalculationDisplay.result.innerHTML = stateCalculationDisplay.result.innerHTML.slice(0,stateCalculationDisplay.result.innerHTML.length -1)
-    }
-    if(keyEvent.code == 'Space'){
-        stateDrillDetailsDisplay.next();
-        return;
-    }
-
-};
-
-
-//Calculations Processing
-var stateCalculations = {};
-stateCalculations.first=[];
-stateCalculations.second=[];
-stateCalculations.current_counter=0;
-stateCalculations.operationsMap = new Map();
-stateCalculations.operationsMap.set('+', (a,b) => a+b);
-stateCalculations.operationsMap.set('-', (a,b) => a-b);
-stateCalculations.operationsMap.set('x', (a,b) => a*b);
-stateCalculations.operationsMap.set('÷', (a,b) => a/b);
-stateCalculations.operationsMap.set('^', (a,b) => Math.pow(a,b));
-stateCalculations.operationsMap.set('√a', (a,b) => Math.pow(a,1/b));
-stateCalculations.shuffle = function(array){
-    var shuffled = [...array];
-    for (let i = shuffled.length -1; i > 0; i--){
-        let j = Math.floor(Math.random() * (i+1));
-        let temp = shuffled[i];
-        shuffled[i]= shuffled[j];
-        shuffled[j] = temp;
-    }
-    return shuffled;
-};
-stateCalculations.generate = function(firstRandom=false){
-    let firstStart = parseInt( stateDrillDetailsDisplay.first_param_start.innerHTML);
-    let firstEnd = parseInt(stateDrillDetailsDisplay.first_param_end.innerHTML);
-    let secondStart = parseInt(stateDrillDetailsDisplay.second_param_start.innerHTML);
-    let secondEnd = parseInt(stateDrillDetailsDisplay.second_param_end.innerHTML);
-    let firstSequence =[];
-    let secondSequence = [];
-    this.first =[];
-    this.second=[];
-    let counter = 0;
-    for(let i = firstStart; i<= firstEnd; i++){
-        firstSequence[counter]=i;
-        counter++;
-    }
-    counter = 0;
-    for(let i = secondStart; i<= secondEnd; i++){
-        secondSequence[counter]=i;
-        counter++;
-    }
-
-    counter = 0;
-    for (let j=0; j < (secondEnd-secondStart+1);j++){
-        let firstTempSequence = firstSequence;
-        if(firstRandom){
-            firstTempSequence = this.shuffle(firstTempSequence);
-        }
-        for (i = 0; i < firstTempSequence.length;i++){
-            this.first[counter] = firstTempSequence[i];
-            this.second[counter] = secondSequence[j];
-            counter++;
-        }    
-    }
-
-    this.current_counter=0;
-    this.maxCalculation = (firstEnd - firstStart +1) * (secondEnd - secondStart+1);
-    console.log(this.first);
-    console.log(this.second);
-    console.log(this);
-};
-
-stateCalculations.isDrillOver = function() {
-    return !(this.current_counter < this.maxCalculation);
-};
-
-stateCalculations.getCurrentResult = function(){
-    let retResultFunction = this.operationsMap.get(stateDrillDetailsDisplay.operation.innerHTML);
-    let retResult = retResultFunction(this.first[this.current_counter], this.second[this.current_counter]);
-    return retResult;
-};
-stateCalculations.nextCalculation = function(){
-    this.current_counter++;
-    if(this.current_counter >= this.maxCalculation){return false;}
-    return true;
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
 }
-stateCalculations.getCurrentCalculation = function(){
-    return {first:this.first[this.current_counter], second:this.second[this.current_counter]};
-}
-stateCalculations.checkResult = function(){
-    if (parseInt(stateCalculationDisplay.result.innerHTML) === parseInt(this.getCurrentResult())){
-        //flash it in green
-        stateCalculationDisplay.result.classList.add("text-success");
-        setTimeout(function(){
-            if(!stateCalculations.nextCalculation()){
-                return;
+
+document.addEventListener('alpine:init', () => {
+    Alpine.store('stateCalculationDisplay',{
+        first:0,
+        displayFirst:true,
+        operation:'x',
+        displayOperation:true,
+        second:0,
+        displaySecond:true,
+        result:'',
+        isResultCorrect:false,
+        checkResult : function(){
+            let sc = Alpine.store('stateCalculations');
+            sc.checkResult();      
+        },
+
+    });
+    Alpine.store('stateDrillDetailsDisplay', {
+        first:2,
+        isFirstReadonly:false,
+        isFirstValid:true,
+        drill:'', 
+        second_start:1,
+        isSecondStartValid:true,
+        second_end:15,
+        isSecondEndValid:true,
+        random:true,
+        processChange: function(source){
+            let stateDrillDetailsDisplay = Alpine.store('stateDrillDetailsDisplay');
+            if(stateDrillDetailsDisplay.validate(source)){
+                stateDrillDetailsDisplay.start();      
             }
-            let currentCalc = stateCalculations.getCurrentCalculation();    
-            stateCalculationDisplay.updateFirst(currentCalc.first);
-            stateCalculationDisplay.updateSecond(currentCalc.second);
-            stateCalculationDisplay.updateResult('?');
-            stateCalculationDisplay.result.classList.remove("text-success");
-        }, 750);
+        },
+        validate: function(source){
+            let sd = Alpine.store('stateDrillDetailsDisplay');
+            let validated = true;
+            if(isNumeric(sd.first) && sd.first > 0 && sd.first < 9999){
+                sd.isFirstValid = true;
+            }
+            else{
+                validated = false;
+                sd.isFirstValid = false;
+            }
+            if(isNumeric(sd.second_start) && sd.second_start > 0 && sd.second_start < 9999 && sd.second_start < sd.second_end){
+                sd.isSecondStartValid = true;
+            }
+            else{
+                validated = false;
+                sd.isSecondStartValid = false;
+            }
+            if(isNumeric(sd.second_end) && sd.second_end > 0 && sd.second_end < 9999 && sd.second_end > sd.second_start){
+                sd.isSecondEndValid = true;
+            }
+            else{
+                validated = false;
+                sd.isSecondEndValid = false;
+            }
+            return validated;
+        },
+        updateDrills: function(){
+            let sd = Alpine.store('stateDrillDetailsDisplay');
+            if(sd.drill === 'Tables'){
+                sd.setState(2,false, 'x', 1, 30, true, true, true);
+            }
+            else if(sd.drill === 'Squares'){
+                sd.setState(2,true, '²', 1, 20, true, true, false );
+            }
+            else if(sd.drill === 'Cubes'){
+                sd.setState(3,true, '³', 1, 20, true, true, false);
+            }
+            else if(sd.drill === 'Fractions'){
+                sd.setState(1,true, '÷', 1, 30, true, true, true);
+            }
+            else if(sd.drill === 'Sq. Roots'){
+                sd.setState(2,true, '√', 1, 15, true, false, true);
+            }
+            sd.start();
+        },
+        start: function(){
+            let sc = Alpine.store('stateCalculations');
+            sc.generate();
+            sc.getNext();
+        },
+        setState: function(first, isFirstReadonly, operation, second_start, second_end, random, displayFirstCalc, displaySecondCalc){
+            let sd = Alpine.store('stateDrillDetailsDisplay');
+            let scd = Alpine.store('stateCalculationDisplay');
+            sd.first = first; sd.isFirstReadonly = isFirstReadonly;  sd.second_start = second_start; sd.second_end = second_end; sd.random = random;
+            scd.operation=operation; scd.displayFirst = displayFirstCalc; scd.displaySecond = displaySecondCalc;
+        }, 
 
-    }
-}
+    });
+    Alpine.store('stateCalculations', {
+        calculationList:[],
+        currentCounter:-1,
+        maxCalculations:0,
+        displayMap: new Map([
+            ['Tables', (a,b) => [b,a]],
+            ['Squares', (a,b) => [b,a]],
+            ['Cubes', (a,b) => [b,a]],
+            ['Fractions', (a,b) => [a,b]],
+            ['Sq. Roots', (a,b) => [a,b]],
+        ]),
+        operationsMap : new Map([
+            ['Tables', (a,b) => a*b],
+            ['Squares', (a,b) => Math.pow(a,2)],
+            ['Cubes', (a,b) => Math.pow(a,3)],
+            ['Fractions', (a,b) => 1/b],
+            ['Sq. Roots', (a,b) => Math.pow(a,1/2)],
+        ]),
+        shuffle: function(array){
+            var shuffled = [...array];
+            for (let i = shuffled.length -1; i > 0; i--){
+                let j = Math.floor(Math.random() * (i+1));
+                let temp = shuffled[i];
+                shuffled[i]= shuffled[j];
+                shuffled[j] = temp;
+            }
+            return shuffled;
+        },
+        generate: function(){
+            let cList = [];
+            let sc = Alpine.store('stateCalculations');
+            let sd = Alpine.store('stateDrillDetailsDisplay');
+            let max_calcs = sd.second_end - sd.second_start+1;
+            sc.currentCounter=-1;
+            sc.maxCalculations = max_calcs;
+            for (let i=0; i < (max_calcs); i++){
+                cList[i] = [parseInt(sd.first),parseInt(sd.second_start+i)];
+            }
+            if(sd.random){
+                sc.calculationList = sc.shuffle(cList);
+            }else{
+                sc.calculationList = cList;
+            }
+        },
+        getNext: function(){
+            let sc = Alpine.store('stateCalculations');
+            let sd = Alpine.store('stateDrillDetailsDisplay');
+            let scd = Alpine.store('stateCalculationDisplay');
+            sc.currentCounter++;
+            if (sc.currentCounter < sc.maxCalculations){
+                let toMap = sc.displayMap.get(sd.drill);
+                let toMapAr = toMap(sc.calculationList[sc.currentCounter][0],sc.calculationList[sc.currentCounter][1]);
+                scd.first = toMapAr[0];
+                scd.second = toMapAr[1];
+                scd.result = '';
+                scd.isResultCorrect = false;
+            }else
+            {
+                scd.result = 'Drill Complete';
+            }
+        },
+        checkResult: function(){
+            let sc = Alpine.store('stateCalculations');
+            let sd = Alpine.store('stateDrillDetailsDisplay');
+            let scd = Alpine.store('stateCalculationDisplay');
+
+            let resultOp = sc.operationsMap.get(sd.drill);
+            let result = resultOp(sc.calculationList[sc.currentCounter][0],sc.calculationList[sc.currentCounter][1]);
+            if (scd.result === result){
+                scd.isResultCorrect = true;
+                setTimeout(sc.getNext, 800); 
+            }
+        },
+        
+    });
+     
+});
 
 
-//Drill Details
-var stateDrillDetailsDisplay = {};
-stateDrillDetailsDisplay.update = function(){
-    this.element = document.querySelector(".drill-details-display")
-    this.first_param_start = this.element.querySelector(".drill_first_param_start");
-    this.first_param_end = this.element.querySelector(".drill_first_param_end");
-    this.operation = this.element.querySelector(".drill_operation") ;
-    this.second_param_start = this.element.querySelector(".drill_second_param_start");
-    this.second_param_end = this.element.querySelector(".drill_second_param_end");
-    this.first_random = this.element.querySelector(".drill_first_param_random");
- };
-stateDrillDetailsDisplay.play =  function(){
-    stateDrillDetailsDisplay.update();    
-    //Is a proper drill loaded else return
-    if (!stateDrillDetailsDisplay.isProperDrill()){
-        return;
-    }
-    //Generate the sequence of calculations
-    stateCalculations.generate(stateDrillDetailsDisplay.first_random.checked);
-    //Update the display with the first calculation
-    stateCalculationDisplay.update(stateCalculations.first[0],stateCalculations.second[0], stateDrillDetailsDisplay.operation.innerHTML,'?');
-    stateCalculationDisplay.result.focus();
-};
 stateDrillDetailsDisplay.next = function() {
     //Is a proper drill loaded else return
     if (stateDrillDetailsDisplay.element.getAttribute('data-uuid') === "dummy"){
@@ -211,51 +209,50 @@ stateDrillDetailsDisplay.isProperDrill = function(){
 };
 
 
-//Drill Selector
-var stateDrillSelector = {};
-stateDrillSelector.action = function(){
-    // Has to be initialised after HTMX swap
-    stateDrillSelector.element = document.getElementById('drill-selector');
-    stateDrillSelector.selectedDrill = stateDrillSelector.element.value;
-    stateDrillSelector.selectedDrillUuid = null;
-    stateDrillDetailsDisplay.update();
 
-    for (let element of stateDrillSelector.element.children){
-        if (element.value === stateDrillSelector.selectedDrill){
-            stateDrillSelector.selectedDrillUuid = element.getAttribute("data-uuid");
-            stateDrillDetailsDisplay.element.setAttribute("data-uuid", stateDrillSelector.selectedDrillUuid);  
-            //Actual drill selected so lets remove the Drills dummy holder
-            for(let i=0; i < stateDrillSelector.element.length;i++){
-                if(stateDrillSelector.element.options[i].value==='Drills'){
-                    stateDrillSelector.element.remove(i);
-                    break;
-                }
+
+
+
+stateCalculations.nextCalculation = function(){
+    this.current_counter++;
+    if(this.current_counter >= this.maxCalculation){return false;}
+    return true;
+}
+stateCalculations.getCurrentCalculation = function(){
+    return {first:this.first[this.current_counter], second:this.second[this.current_counter]};
+}
+
+
+stateCalculations.isDrillOver = function() {
+    return !(this.current_counter < this.maxCalculation);
+};
+
+stateCalculations.getCurrentResult = function(){
+    let retResultFunction = this.operationsMap.get(stateDrillDetailsDisplay.operation.innerHTML);
+    let retResult = retResultFunction(this.first[this.current_counter], this.second[this.current_counter]);
+    return retResult;
+};
+stateCalculations.checkResult = function(){
+    if (parseInt(stateCalculationDisplay.result.innerHTML) === parseInt(this.getCurrentResult())){
+        //flash it in green
+        stateCalculationDisplay.result.classList.add("text-success");
+        setTimeout(function(){
+            if(!stateCalculations.nextCalculation()){
+                return;
             }
-            break;
-        }
-    }
-    for (let element of document.querySelectorAll(".drill-details")){    
-        if (element.getAttribute("data-uuid") === stateDrillSelector.selectedDrillUuid){
-            stateDrillDetailsDisplay.first_param_start.innerHTML = element.dataset.drill_first_param_start;
-            stateDrillDetailsDisplay.first_param_end.innerHTML = element.dataset.drill_first_param_end;
-            stateDrillDetailsDisplay.operation.innerHTML = element.dataset.drill_operation;
-            stateDrillDetailsDisplay.second_param_start.innerHTML = element.dataset.drill_second_param_start;
-            stateDrillDetailsDisplay.second_param_end.innerHTML = element.dataset.drill_second_param_end;
-            break;
-        }
-    }
-    stateCalculationDisplay.update(0,0, stateDrillDetailsDisplay.operation.innerHTML, '?')
-    stateDrillDetailsDisplay.play();
-}    
-  
+            let currentCalc = stateCalculations.getCurrentCalculation();    
+            stateCalculationDisplay.updateFirst(currentCalc.first);
+            stateCalculationDisplay.updateSecond(currentCalc.second);
+            stateCalculationDisplay.updateResult('?');
+            stateCalculationDisplay.result.classList.remove("text-success");
+        }, 750);
 
-//Add event listeners after HTMX swap
-document.body.addEventListener('htmx:afterSwap', function (evt){
-    if (evt.target.matches(".drill-select")){
-        document.getElementById('drill-selector').addEventListener("change", stateDrillSelector.action);
-        document.body.querySelector(".drill_next_button").addEventListener('click', stateDrillDetailsDisplay.next);
-        document.body.querySelector(".drill_first_param_random").addEventListener('change', stateDrillDetailsDisplay.random);
-        document.addEventListener('keydown', stateCalculationDisplay.keyboardListener); 
     }
-});
+}
 
+
+//Drill Details
+
+
+ 
+ 

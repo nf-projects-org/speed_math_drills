@@ -9,60 +9,19 @@ Speed Maths Drills
 
 {% if user.is_authenticated %}
 <main>
-  <div class="drill-select row text-dark p-1 justify-content-evenly" hx-get="{% url 'drills:universal-drills' %}" hx-trigger="load once" hx-swap="outerHTML">
-      <div class="col-5 align-self-center">
-        <select class="form-select" id="drill-selector">
-          <option class="drill-name" data-uuid="dummy" value="Drills" selected>Choose</option>
-        </select>
-      </div>
-      <div class="col -5 ">
-        <div data-uuid="dummy" class="drill-details-display">
-          <div class="d-flex flex-row align-items-center justify-content-evenly">
-              <span class="border p-1"></span>
-              <span class="border p-1"></span>
-              <span class="border p-1">X</span> 
-              <span class="border p-1">RS</span>
-              <span class="border p-1">Play</span>
-          </div>    
-          <div class="d-flex flex-row align-items-center justify-content-evenly">
-              <span class="border p-1"></span>
-              <span class="border p-1"></span>
-              <span class="border p-1">X</span> 
-              <span class="border p-1">RS</span>
-              <span class="border p-1">Stop</span>
-          </div>                    
-        </div>  
-      </div>
-  </div>
-  <div class="row text-dark p-1 justify-content-evenly">
-    <div class="col-10 border rounded-1">
-      <div class="text-end display-4"><span class="display_first">0</span></div>
-      <div class="text-end display-4  border-bottom border-1"><span class="display_operation">+</span>  <span class="display_second">0</span></div>
-      <div class="text-end display-4  border-bottom border-1"><span class="display_result">?</span></div>
-      <div class="py-2 small">
-        <div class="d-flex justify-content-evenly ">
-          <div class="">1</div>
-          <div class="">2</div>
-          <div class="">3</div>
-        </div>
-        <div class="d-flex justify-content-evenly ">
-          <div class="">4</div>
-          <div class="">5</div>
-          <div class="">6</div>
-        </div>
-        <div class="d-flex justify-content-evenly">
-          <div class="">7</div>
-          <div class="">8</div>
-          <div class="">9</div>
-        </div>
-        <div class="d-flex justify-content-evenly">
-          <div class="">C</div>
-          <div class="">0</div>
-          <div class="">DEL</div>
-        </div>
-      </div>
+  <div class="drill-select row text-dark p-1 justify-content-evenly">
+    <div class="col-10 text-center">
+     <div class="btn-group" role="group">
+      <input type="radio" class="drill-practice-radio btn-check" name="drill-practice-radio" id="drillRadio"  checked hx-post="{% url 'drills:drill-session' %}" hx-swap="outerHTML" hx-trigger="change" hx-target=".drill-practice-display" ><label class="btn btn-outline-primary" for="drillRadio">Drill Session</label>
+      <input type="radio" class="drill-practice-radio btn-check" name="drill-practice-radio" id="practiceRadio" hx-post="{% url 'drills:practice-session' %}" hx-swap="outerHTML" hx-trigger="change" hx-target=".drill-practice-display"  ><label class="btn btn-outline-primary" for="practiceRadio">Practice Session</label>
+     </div>
     </div>
   </div>
+  <div class="drill-practice-display row text-dark p-1 justify-content-evenly" hx-get="{% url 'drills:drill-session' %}" hx-trigger="load once" hx-swap="outerHTML">
+  </div>
+  {% include '_snippets/calculationDisplay.html' %}
+  
+  {% include '_snippets/keypad.html' %}
 </main>
 {% else %}
 <main>
@@ -80,8 +39,7 @@ Speed Maths Drills
             <label for="floatingInput">Email address</label>
           </div>
           <button class="w-100 btn btn-primary" id="waitlist-submit">Get early access</button>
-          <div id="waitlist-form-status" ></div>
-          
+          <div id="waitlist-form-status" ></div>          
         </form>
       </div>
     </div>
