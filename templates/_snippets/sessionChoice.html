@@ -1,0 +1,10 @@
+<div class="drill-select row text-dark p-1 justify-content-evenly">
+    <div class="col-10 text-center">
+        <div x-data class="btn-group" role="group">
+            <input type="radio" class="drill-practice-radio btn-check" name="drill-practice-radio" id="drillRadio"  checked hx-post="{% url 'drills:drill-session' %}" hx-swap="outerHTML" hx-trigger="change" hx-target=".drill-practice-display" x-on:change="$store.stateSessionChoice.reset" ><label class="btn btn-outline-primary" for="drillRadio"  >Drill Session</label>
+            <input type="radio" class="drill-practice-radio btn-check" name="drill-practice-radio" id="practiceRadio" hx-post="{% url 'drills:practice-session' %}" hx-swap="outerHTML" hx-trigger="change" hx-target=".drill-practice-display"  ><label class="btn btn-outline-primary" for="practiceRadio">Practice Session</label>
+        </div>
+    </div>
+</div>
+<div class="drill-practice-display row text-dark p-1 justify-content-evenly" hx-get="{% url 'drills:drill-session' %}" hx-trigger="load once" hx-swap="outerHTML">
+</div>
