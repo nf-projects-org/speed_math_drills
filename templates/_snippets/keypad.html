@@ -1,53 +1,53 @@
-<div x-data class="row text-dark  p-1 justify-content-evenly" x-bind:class="$store.stateKeypad.disabled && 'hidden'">
-  <div class="col-6 border rounded p-1 text-center align-middle small" >
+<div x-data class="row bg-dark text-white  p-1 justify-content-evenly" x-bind:class="$store.stateKeypad.disabled && 'hidden'">
+  <div class="col-6 col-sm-6  p-1 text-center align-middle small" >
     <div x-bind:class="!$store.stateKeypad.displayKeypad && 'hidden'">    
-      <div class="row text-center">
-        <div class="col ">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(9)">9</button>
+      <div class="row text-center justify-content-center">
+        <div class="col col-sm-2 ">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(9)">9</button>
         </div>
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded"x-on:click="$store.stateKeypad.keypadListener(8)" >8</button>
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded"x-on:click="$store.stateKeypad.keypadListener(8)" >8</button>
         </div>
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(7)">7</button>
-        </div>
-      </div>
-      <div class="row text-center">
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(6)">6</button>
-        </div>
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded"x-on:click="$store.stateKeypad.keypadListener(5)" >5</button>
-        </div>
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(4)">4</button>
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(7)">7</button>
         </div>
       </div>
-      <div class="row text-center">
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(3)">3</button>
+      <div class="row text-center justify-content-center">
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(6)">6</button>
         </div>
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded"x-on:click="$store.stateKeypad.keypadListener(2)" >2</button>
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded"x-on:click="$store.stateKeypad.keypadListener(5)" >5</button>
         </div>
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(1)">1</button>
-        </div>
-      </div>
-      <div class="row text-center">
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(0)">0</button>
-        </div>
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded"x-on:click="$store.stateKeypad.keypadListener('.')" >.</button>
-        </div>
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener('-')">+/-</button>
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(4)">4</button>
         </div>
       </div>
-      <div class="row text-center">
-        <div class="col">
-          <button class="keypad-button m-1 btn btn-primary btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener('DEL')">⌫</button>
+      <div class="row text-center justify-content-center">
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(3)">3</button>
+        </div>
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded"x-on:click="$store.stateKeypad.keypadListener(2)" >2</button>
+        </div>
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(1)">1</button>
+        </div>
+      </div>
+      <div class="row text-center justify-content-center">
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener(0)">0</button>
+        </div>
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded"x-on:click="$store.stateKeypad.keypadListener('.')" >.</button>
+        </div>
+        <div class="col col-sm-2">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener('-')">±</button>
+        </div>
+      </div>
+      <div class="row text-center justify-content-center">
+        <div class="col col-sm-6">
+          <button class="keypad-button m-1 btn  btn-sm w-100  rounded" x-on:click="$store.stateKeypad.keypadListener('DEL')">⌫</button>
         </div>
 
       </div>  

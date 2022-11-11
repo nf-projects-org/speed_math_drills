@@ -1,9 +1,9 @@
 {%load static%}
-<div class="drill-practice-display row text-dark  p-1 justify-content-evenly">
-    <div class="col-10 border rounded p-0 text-center align-middle small">
+<div class="drill-practice-display row text-dark  p-1 justify-content-evenly bg-dark text-white">
+    <div class="col-10  p-0 text-center align-middle small">
         <div x-data class="drill-details-display">
-            <div class="m-1 d-flex flex-row justify-content-between small">
-                <select class="select-form p-1 mx-1 flex-fill" x-on:change="$store.stateDrillDetailsDisplay.updateDrills" x-model="$store.stateDrillDetailsDisplay.drill" >
+            <div class="m-1 my-2 d-flex flex-row justify-content-between small">
+                <select class="select-form p-1 mx-1 flex-fill bg-dark text-white border rounded" x-on:change="$store.stateDrillDetailsDisplay.updateDrills" x-model="$store.stateDrillDetailsDisplay.drill" >
                     <option value="" disabled>Choose</option>
                     <option class="drill_type">Tables</option>
                     <option class="drill_type">Squares</option>
@@ -12,23 +12,23 @@
                     <option class="drill_type">Sq. Roots</option>
                 </select>
             </div>
-            <div class="m-1 d-flex flex-row small" x-bind:class="($store.stateDrillDetailsDisplay.isFirstReadonly || $store.stateDrillDetailsDisplay.disabled) && 'hidden'">
-                <input class="p-1 col-3  text-center" x-bind:readonly="$store.stateDrillDetailsDisplay.isFirstReadonly"  x-bind:class="!$store.stateDrillDetailsDisplay.isFirstValid && 'text-danger'" x-model.number="$store.stateDrillDetailsDisplay.first" x-on:change="$store.stateDrillDetailsDisplay.processChange" type="number">
+            <div class="m-1 my-2 d-flex flex-row small " x-bind:class="($store.stateDrillDetailsDisplay.isFirstReadonly || $store.stateDrillDetailsDisplay.disabled) && 'hidden'">
+                <input class="p-1 col-3  text-center bg-dark text-white border rounded" x-bind:readonly="$store.stateDrillDetailsDisplay.isFirstReadonly"  x-bind:class="!$store.stateDrillDetailsDisplay.isFirstValid && 'text-danger'" x-model.number="$store.stateDrillDetailsDisplay.first" x-on:change="$store.stateDrillDetailsDisplay.processChange" type="number">
                 <span class="p-1 ">Time's Table</span>
              </div> 
-            <div class="m-1 d-flex flex-row small" x-bind:class="$store.stateDrillDetailsDisplay.disabled && 'hidden'">
+            <div class="m-1 my-2 d-flex flex-row small" x-bind:class="$store.stateDrillDetailsDisplay.disabled && 'hidden'">
                 <div class="flex-fill  text-start">
-                    Range: <input class="p-1 flex-fill text-center col-2" x-model.number="$store.stateDrillDetailsDisplay.second_start" x-bind:class="!$store.stateDrillDetailsDisplay.isSecondStartValid && 'text-danger'" x-on:change="$store.stateDrillDetailsDisplay.processChange" type="number">
-                    -<input class="p-1 flex-fill text-center col-2 " x-model.number="$store.stateDrillDetailsDisplay.second_end" x-bind:class="!$store.stateDrillDetailsDisplay.isSecondEndValid && 'text-danger'" x-on:change="$store.stateDrillDetailsDisplay.processChange" type="number">
+                    Range: <input class="p-1 flex-fill text-center col-2 bg-dark text-white border rounded" x-model.number="$store.stateDrillDetailsDisplay.second_start" x-bind:class="!$store.stateDrillDetailsDisplay.isSecondStartValid && 'text-danger'" x-on:change="$store.stateDrillDetailsDisplay.processChange" type="number">
+                    -<input class="p-1 flex-fill text-center col-2 bg-dark text-white border rounded " x-model.number="$store.stateDrillDetailsDisplay.second_end" x-bind:class="!$store.stateDrillDetailsDisplay.isSecondEndValid && 'text-danger'" x-on:change="$store.stateDrillDetailsDisplay.processChange" type="number">
                 </div>
-                <div class="flex-fill  form-check form-switch p-1" x-bind:class="$store.stateDrillDetailsDisplay.disabled && 'hidden'">
+                <div class="flex-fill text-start form-check form-switch p-1" x-bind:class="$store.stateDrillDetailsDisplay.disabled && 'hidden'">
                     <input class="form-check-input" id="drill_random" type="checkbox" x-model="$store.stateDrillDetailsDisplay.random" x-on:change="$store.stateDrillDetailsDisplay.processChange" >
                     <label class="form-check-label" for="drill_random" >Random</label>   
                 </div>
             </div>
             <div class="m-1 d-flex flex-row small" x-bind:class="$store.stateDrillDetailsDisplay.disabled && 'hidden'">
                 <div class="flex-fill  p-1 text-start" x-bind:class="($store.stateDrillDetailsDisplay.disabled || !$store.stateDrillDetailsDisplay.displayPrecision) && 'hidden'">
-                    Precision: <input class="p-1 flex-fill text-center col-2" x-model.number="$store.stateDrillDetailsDisplay.precision" x-on:change="$store.stateDrillDetailsDisplay.processChange" x-bind:class="!$store.stateDrillDetailsDisplay.isPrecisionValid && 'text-danger'" type="number" >
+                    Precision: <input class="p-1 flex-fill text-center col-2 bg-dark text-white border rounded" x-model.number="$store.stateDrillDetailsDisplay.precision" x-on:change="$store.stateDrillDetailsDisplay.processChange" x-bind:class="!$store.stateDrillDetailsDisplay.isPrecisionValid && 'text-danger'" type="number" >
                 </div>
             </div>
 

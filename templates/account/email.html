@@ -14,7 +14,7 @@
         {% for emailaddress in user.emailaddress_set.all %}            
           <p >{{ emailaddress.email }} is {% if emailaddress.verified %} already verified{% else %}unverified</p>
           <input name="email" type="text" hidden value="{{emailaddress.email}}">
-        <button type="submit" name="action_send" class="btn btn-success w-100 ">Re-send Verification</button>
+        <button type="submit" name="action_send" class="btn btn-smd-primary w-100 ">Re-send Verification</button>
         {% endif %}
         {% endfor %}
       </form>

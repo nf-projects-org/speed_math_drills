@@ -32,10 +32,14 @@ document.addEventListener('alpine:init', () => {
         isResultCorrect:false,
         displayMessage:false,
         disabled:true,
+        progressBarCorrect:'0%',
+        progressBarWrong:'0%',
+        progressBarSkip:'0%',
         reset: function(){
             let sc = Alpine.store('stateCalculationDisplay');
             sc.first = 0; sc.displayFirst = true; sc.operation = 'x'; sc.displayOperation = true; sc.second =0;
             sc.displaySecond = true; sc.result = ''; sc.isResultCorrect = false; sc.displayMessage = false; sc.disabled = true;
+            sc.progressBarCorrect = '0%'; sc.progressBarWrong = '0%'; sc.progressBarSkip = '0%';
         },
         checkResult : function(){
             let sc = Alpine.store('stateCalculations');
@@ -282,6 +286,9 @@ document.addEventListener('alpine:init', () => {
         currentCounter:-1,
         maxCalculations:0,
         sessionChoice:'',
+        correctProgress:0,
+        wrongProgress:0,
+        skipProgress:0,
         displayMap: new Map([
             ['Tables', (a,b) => [b,a]],
             ['Squares', (a,b) => [b,a]],
@@ -324,6 +331,10 @@ document.addEventListener('alpine:init', () => {
             sc.currentCounter = -1;
             sc.maxCalculations = 0;
             sc.sessionChoice = '';
+            sc.correctProgress = 0,
+            sc.wrongProgress = 0,
+            sc.skipProgress = 0;
+    
         },
         roundToPrecision: function(arg){
             let precision = Alpine.store('stateDrillDetailsDisplay').precision;
@@ -345,6 +356,9 @@ document.addEventListener('alpine:init', () => {
             sc.sessionChoice = sessionChoice;
             let cList = [];
             sc.currentCounter=-1;
+            sc.correctProgress = 0;
+            sc.wrongProgress = 0;
+            sc.skipProgress = 0;
 
             if(sc.sessionChoice === 'drill'){
                 let sd = Alpine.store('stateDrillDetailsDisplay');
@@ -387,6 +401,8 @@ document.addEventListener('alpine:init', () => {
                 scd.second = toMapAr[1];
                 scd.result = '';
                 scd.isResultCorrect = false;
+                scd.progressBarCorrect = Math.floor(sc.correctProgress / (sc.maxCalculations) *100) +'%';
+                scd.progressBarSkip = Math.floor(sc.skipProgress / (sc.maxCalculations) *100) +'%';
             }else
             {
                 //Display confirmation
@@ -399,13 +415,13 @@ document.addEventListener('alpine:init', () => {
         },
         checkResult: function(){
             let sc = Alpine.store('stateCalculations');
-            ;
             let sdp = sc.getSdp();
             let scd = Alpine.store('stateCalculationDisplay');
             let resultOp = sc.operationsMap.get(sdp.getOpChoice());
             let result = resultOp(sc.calculationList[sc.currentCounter][0],sc.calculationList[sc.currentCounter][1]);
             if (parseFloat(scd.result) === result){
                 scd.isResultCorrect = true;
+                sc.correctProgress +=1;
                 setTimeout(sc.getNext, 1000); 
             }
         },
@@ -418,6 +434,7 @@ document.addEventListener('alpine:init', () => {
                 let resultOp = sc.operationsMap.get(sdp.getOpChoice());
                 let result = resultOp(sc.calculationList[sc.currentCounter][0],sc.calculationList[sc.currentCounter][1]);
                 scd.result = result;
+                sc.skipProgress +=1;
                 setTimeout(sc.getNext, 1000); 
             }
         },
