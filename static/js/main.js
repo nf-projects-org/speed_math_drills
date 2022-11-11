@@ -6,13 +6,14 @@ function isNumeric(n) {
 document.addEventListener('alpine:init', () => {
     Alpine.store('stateSessionChoice',{
         reset: function(){
-            console.log("stateSessionChoice:Reset");
             let sd = Alpine.store('stateDrillDetailsDisplay');
+            let sp = Alpine.store('statePracticeDetailsDisplay');
             let scd = Alpine.store('stateCalculationDisplay');
             let sk = Alpine.store('stateKeypad');
             let sc = Alpine.store('stateCalculations');
 
             sd.reset();
+            sp.reset();
             scd.reset();
             sk.reset();
             sc.reset();
@@ -44,6 +45,43 @@ document.addEventListener('alpine:init', () => {
             let sc = Alpine.store('stateCalculations');
             sc.skip();
         },
+        updateResultText: function(key){
+            let keyNumber=0;
+            let keyString = '';
+            let scd = Alpine.store('stateCalculationDisplay');
+            //Process key
+            if( typeof(key) === 'number'){
+                keyNumber = key;
+                keyString = key.toString();
+            }
+            else if (typeof(key) === 'string'){
+                keyString = key;
+                keyNumber = parseInt(key);
+            }
+
+            //Special case . & DEL
+            if(key === 'DEL'){
+                if(scd.result.length > 1){
+                    scd.result = scd.result.slice(0,-1);
+                }
+                else if (scd.result.length === 1){
+                    scd.result = '';
+                }               
+                return;
+            }
+            if(key === '-'){
+                if(scd.result[0] ==='-'){
+                    scd.result = scd.result.slice(1);
+                    return;
+                }else{
+                    scd.result = '-' + scd.result;
+                    return;
+                }
+            }
+            scd.result += keyString;
+            let sc = Alpine.store('stateCalculations');
+            sc.checkResult();
+        },
 
 
     });
@@ -65,6 +103,10 @@ document.addEventListener('alpine:init', () => {
             let sd = Alpine.store('stateDrillDetailsDisplay');
             sd.disabled = true; sd.first = 2; sd.isFirstReadonly = false; sd.isFirstValid = true; sd.drill=''; sd.second_start=1; sd.second_end=15;
             sd.isSecondStartValid = true; sd.isSecondEndValid = true; sd.random = true; sd.precision = 3; sd.displayPrecision = false; sd.isPrecisionValid = true;
+        },
+        getOpChoice: function(){
+            let sd = Alpine.store('stateDrillDetailsDisplay');
+            return sd.drill;
         },
         processChange: function(source){
             let stateDrillDetailsDisplay = Alpine.store('stateDrillDetailsDisplay');
@@ -133,8 +175,8 @@ document.addEventListener('alpine:init', () => {
         },
         start: function(){
             let sc = Alpine.store('stateCalculations');
-            sc.generate();
-            sc.getNext();
+            sc.generate('drill');
+            sc.getNext('drill');
         },
         setState: function(first, isFirstReadonly, operation, second_start, second_end, random, displayFirstCalc, displaySecondCalc, displayPrecision){
             let sd = Alpine.store('stateDrillDetailsDisplay');
@@ -144,16 +186,114 @@ document.addEventListener('alpine:init', () => {
         }, 
 
     });
+    Alpine.store('statePracticeDetailsDisplay', {
+        disabled: true,
+        first:2,
+        isFirstReadonly:false,
+        isFirstValid:true,
+        practice:'',
+        operation:'', 
+        second:2,
+        isSecondStartValid:true,
+        precision:3,
+        displayPrecision:false,
+        isPrecisionValid:true,
+        reset: function(){
+            let sp = Alpine.store('statePracticeDetailsDisplay');
+            sp.disabled = true; sp.first = 2; sp.isFirstReadonly = false; sp.isFirstValid = true; sp.practice=''; sp.second=2; sp.operation ='';
+            sp.isSecondValid = true; sp.precision = 3; sp.displayPrecision = false; sp.isPrecisionValid = true;
+        },
+        getOpChoice: function(){
+            let sp = Alpine.store('statePracticeDetailsDisplay');
+            return sp.practice;
+        },
+
+        processChange: function(source){
+            let sp = Alpine.store('statePracticeDetailsDisplay');
+            if(sp.validate(source)){
+                sp.start();      
+            }
+        },
+        validate: function(source){
+            let sp = Alpine.store('statePracticeDetailsDisplay');
+            let validated = true;
+            if(isNumeric(sp.first) && sp.first > 0 && sp.first < 10){
+                sp.isFirstValid = true;
+            }
+            else{
+                validated = false;
+                sp.isFirstValid = false;
+            }
+            if(isNumeric(sp.second) && sp.second > 0 && sp.second < 10 ){
+                sp.isSecondValid = true;
+            }
+            else{
+                validated = false;
+                sp.isSecondValid = false;
+            }
+            if(isNumeric(sp.precision) && sp.precision > 0 && sp.precision < 7 ){
+                sp.isPrecisionValid = true;
+            }
+            else{
+                validated = false;
+                sp.isPrecisionValid = false;
+            }
+            return validated;
+        },
+        updatePractice: function(){
+            let sp = Alpine.store('statePracticeDetailsDisplay');
+            let scd = Alpine.store('stateCalculationDisplay');
+            let sk = Alpine.store('stateKeypad');
+
+            sp.disabled = false;
+            scd.disabled = false;
+            sk.disabled = false;
+
+            if(sp.practice === 'Multiplication'){
+                sp.setState(2, 'x', 2,  true, true, true,false);
+            }
+            else if(sp.practice === 'Division'){
+                sp.setState(2, '÷', 2,  true, true, true, true );
+            }
+            else if(sp.practice === 'Addition'){
+                sp.setState(2, '+', 2,  true, true, true, false);
+            }
+            else if(sp.practice === 'Subtraction'){
+                sp.setState(2, '-', 2, true, true, true, false);
+            }
+            sp.start();
+        },
+        start: function(){
+            let sc = Alpine.store('stateCalculations');
+            sc.generate('practice');
+            sc.getNext('practice');
+        },
+        //Update setState Function
+        setState: function(first, operation, second, random, displayFirstCalc, displaySecondCalc, displayPrecision){
+            let sp = Alpine.store('statePracticeDetailsDisplay');
+            let scd = Alpine.store('stateCalculationDisplay');
+            sp.first = first;  sp.second = second; sp.random = random; sp.operation = operation;
+            scd.operation=operation; scd.displayFirst = displayFirstCalc; scd.displaySecond = displaySecondCalc; sp.displayPrecision = displayPrecision;
+        }, 
+
+    });
     Alpine.store('stateCalculations', {
         calculationList:[],
         currentCounter:-1,
         maxCalculations:0,
+        sessionChoice:'',
         displayMap: new Map([
             ['Tables', (a,b) => [b,a]],
             ['Squares', (a,b) => [b,a]],
             ['Cubes', (a,b) => [b,a]],
             ['Fractions', (a,b) => [a,b]],
             ['Sq. Roots', (a,b) => [a,b]],
+            ['Multiplication', (a,b) => [a,b]],
+            ['Division', (a,b) => [a,b]],
+            ['Addition', (a,b) => [a,b]],
+            ['Subtraction', (a,b) => [a,b]],
+
+
         ]),
         operationsMap : new Map([
             ['Tables', (a,b) => a*b],
@@ -167,12 +307,23 @@ document.addEventListener('alpine:init', () => {
                 let sc = Alpine.store('stateCalculations');
                 return sc.roundToPrecision(Math.pow(b,1/2));
             }],
+            ['Multiplication', (a,b) => a*b],
+            ['Addition', (a,b) => a+b],
+            ['Subtraction', (a,b) => a-b],
+            ['Division', (a,b) => {
+                let sc = Alpine.store('stateCalculations');
+                return sc.roundToPrecision(a/b);
+            }],
+            
+
+
         ]),
         reset: function(){
             let sc = Alpine.store('stateCalculations');
             sc.calculationList = [];
             sc.currentCounter = -1;
             sc.maxCalculations = 0;
+            sc.sessionChoice = '';
         },
         roundToPrecision: function(arg){
             let precision = Alpine.store('stateDrillDetailsDisplay').precision;
@@ -189,29 +340,48 @@ document.addEventListener('alpine:init', () => {
             }
             return shuffled;
         },
-        generate: function(){
-            let cList = [];
+        generate: function(sessionChoice){
             let sc = Alpine.store('stateCalculations');
-            let sd = Alpine.store('stateDrillDetailsDisplay');
-            let max_calcs = sd.second_end - sd.second_start+1;
+            sc.sessionChoice = sessionChoice;
+            let cList = [];
             sc.currentCounter=-1;
-            sc.maxCalculations = max_calcs;
-            for (let i=0; i < (max_calcs); i++){
-                cList[i] = [parseInt(sd.first),parseInt(sd.second_start+i)];
+
+            if(sc.sessionChoice === 'drill'){
+                let sd = Alpine.store('stateDrillDetailsDisplay');
+                let max_calcs = sd.second_end - sd.second_start+1;
+                sc.maxCalculations = max_calcs;
+                for (let i=0; i < (max_calcs); i++){
+                    cList[i] = [parseInt(sd.first),parseInt(sd.second_start+i)];
+                }
+                if(sd.random){
+                    sc.calculationList = sc.shuffle(cList);
+                }else{
+                    sc.calculationList = cList;
+                }    
             }
-            if(sd.random){
-                sc.calculationList = sc.shuffle(cList);
-            }else{
+            else if(sessionChoice === 'practice'){
+                let sp = Alpine.store('statePracticeDetailsDisplay');
+                let max_calcs = 10; //TODO Parameterize and expose
+                sc.maxCalculations = max_calcs;
+                for (let i=0; i < (max_calcs); i++){
+                    cList[i] = [sc.getRandomInteger(sp.first),sc.getRandomInteger(sp.second)];
+                    if (sp.practice === 'Subtraction'){
+
+                    }
+                }
                 sc.calculationList = cList;
             }
         },
+        getRandomInteger:function(maxDigits){
+            return Math.floor(Math.random() * Math.pow(10,maxDigits));
+        },
         getNext: function(){
             let sc = Alpine.store('stateCalculations');
-            let sd = Alpine.store('stateDrillDetailsDisplay');
+            let sdp = sc.getSdp();
             let scd = Alpine.store('stateCalculationDisplay');
             sc.currentCounter++;
             if (sc.currentCounter < sc.maxCalculations){
-                let toMap = sc.displayMap.get(sd.drill);
+                let toMap = sc.displayMap.get(sdp.getOpChoice());
                 let toMapAr = toMap(sc.calculationList[sc.currentCounter][0],sc.calculationList[sc.currentCounter][1]);
                 scd.first = toMapAr[0];
                 scd.second = toMapAr[1];
@@ -223,35 +393,42 @@ document.addEventListener('alpine:init', () => {
                 scd.displayMessage = true;
                 setTimeout(()=>scd.displayMessage=false,2000);
                 //Restart drill
-                sd.start();
+                sdp.start();
             }
+
         },
         checkResult: function(){
             let sc = Alpine.store('stateCalculations');
-            let sd = Alpine.store('stateDrillDetailsDisplay');
+            ;
+            let sdp = sc.getSdp();
             let scd = Alpine.store('stateCalculationDisplay');
-            console.log("#checkResult")
-            console.log(scd.result);
-            console.log(typeof(scd.result))
-            console.log("checkResult#")
-            let resultOp = sc.operationsMap.get(sd.drill);
+            let resultOp = sc.operationsMap.get(sdp.getOpChoice());
             let result = resultOp(sc.calculationList[sc.currentCounter][0],sc.calculationList[sc.currentCounter][1]);
-            if (scd.result === result){
+            if (parseFloat(scd.result) === result){
                 scd.isResultCorrect = true;
                 setTimeout(sc.getNext, 1000); 
             }
         },
         skip: function(){
             let sc = Alpine.store('stateCalculations');
-            let sd = Alpine.store('stateDrillDetailsDisplay');
+            let sdp = sc.getSdp();
             let scd = Alpine.store('stateCalculationDisplay');
             // display the correct result if possible
             if (sc.currentCounter < sc.maxCalculations){
-                let resultOp = sc.operationsMap.get(sd.drill);
+                let resultOp = sc.operationsMap.get(sdp.getOpChoice());
                 let result = resultOp(sc.calculationList[sc.currentCounter][0],sc.calculationList[sc.currentCounter][1]);
                 scd.result = result;
                 setTimeout(sc.getNext, 1000); 
             }
+        },
+        getSdp: function(){
+            let sc = Alpine.store('stateCalculations');
+            if(sc.sessionChoice === 'drill'){
+                return Alpine.store('stateDrillDetailsDisplay');
+            } else if (sc.sessionChoice === 'practice'){
+                return Alpine.store('statePracticeDetailsDisplay');
+            }
+
         },
         
     });
@@ -265,40 +442,8 @@ document.addEventListener('alpine:init', () => {
         },
         keypadListener: function(key){
             let scd = Alpine.store('stateCalculationDisplay');
-            let keyNumber=0;
-            let keyString = '';
-            let resultString = scd.result.toString();
-            let isBlank = false;
-            if(scd.result === 0 || scd.result === ''){
-                isBlank = true;
-            }
-
-            //Special case . & DEL
-            if(key === '.'){
-                console.log(".");
-                return;
-            }
-            if(key === 'DEL'){
-                
-                return;
-            }
-            //Process key
-            if( typeof(key) === 'number'){
-                keyNumber = key;
-                keyString = key.toString();
-            }
-            else if (typeof(key) === 'string'){
-                keyString = key;
-                keyNumber = parseInt(key);
-            }
-
-            if(typeof(scd.result === 'number')){
-                resultString = resultString + keyString;
-                scd.result = resultString;
-            }
-            else if (typeof(scd.result === 'string')){
-                scd.result = scd.result + keyString;
-            }
+            scd.updateResultText(key);
+            return;
         },
     });
      

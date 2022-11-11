@@ -5,7 +5,7 @@
         <span x-text="$store.stateCalculationDisplay.operation" class="display_operation"></span>  
         <span  x-text="$store.stateCalculationDisplay.second" class="display_second" x-bind:class="!$store.stateCalculationDisplay.displaySecond && 'hidden'"></span>
       </div>
-      <div class="text-end"><input type="number" x-model.number="$store.stateCalculationDisplay.result" x-on:change="$store.stateCalculationDisplay.checkResult" x-bind:class="$store.stateCalculationDisplay.isResultCorrect && 'text-success'" class="display_result text-end fs-4 form-control"></div>
+      <div class="text-end"><input type="text" x-model="$store.stateCalculationDisplay.result" x-on:input="$store.stateCalculationDisplay.checkResult" x-bind:class="$store.stateCalculationDisplay.isResultCorrect && 'text-success'" class="calculationResult display_result text-end fs-4 form-control"></div>
       <div class="text-center small text-success" x-show="$store.stateCalculationDisplay.displayMessage" ><span >Drill Complete</span></div>
       <div class=" p-1 text-center small "><button class="btn-primary btn-sm btn" x-on:click="$store.stateCalculationDisplay.skip">></button></div>  
     </div>

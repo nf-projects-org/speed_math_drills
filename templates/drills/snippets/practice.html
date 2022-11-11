@@ -1,21 +1,34 @@
 {%load static%}
 <div class="drill-practice-display row text-dark  p-1 justify-content-evenly">
- 
-    <div class="col-6 border rounded p-0 text-center align-middle small">
-        <div data-uuid="dummy" class="drill-details-display">
-            <div class="d-flex flex-row justify-content-between overflow-auto">
-                <div class="p-1 flex-fill drill_first_param_start">..</div>
-                <div class="p-1 flex-fill drill_first_param_end">..</div>             
-                <div class="p-1 flex-fill"><label>Not Random </label><input type="checkbox" class="drill_first_param_random" value=""></div>
-                <div class="p-1 flex-fill" ><img class="drill_play_button" src="{% static 'img/icon/play-outline.svg' %}" width="20"></div>
-                <div class="d-none drill_operation">..</div>
-            </div>    
-            <div class="d-flex flex-row justify-content-between overflow-auto">
-                <div class="p-1 flex-fill drill_second_param_start">..</div>
-                <div class="p-1 flex-fill drill_second_param_end">..</div>
-                <div class="p-1 flex-fill "></div>
-                <div class="p-1 flex-fill"><img class="drill_next_button" src="{% static 'img/icon/play-skip-forward-outline.svg' %}" width="20"></div>
-            </div>                    
+    <div class="col-10 border rounded p-0 text-center align-middle small">
+        <div x-data class="practice-details-display">
+            <div class="m-1 d-flex flex-row justify-content-between small">
+                <select class="select-form p-1 mx-1 flex-fill" x-on:change="$store.statePracticeDetailsDisplay.updatePractice" x-model="$store.statePracticeDetailsDisplay.practice" >
+                    <option value="" disabled>Choose</option>
+                    <option class="practice_type">Multiplication</option>
+                    <option class="practice_type">Division</option>
+                    <option class="practice_type">Addition</option>
+                    <option class="practice_type">Subtraction</option>
+                    <option class="practice_type">Mixed</option>
+                </select>
+            </div>
+            <div class="m-1 mt-2 d-flex flex-row small justify-content-between align-items-center" x-bind:class="$store.statePracticeDetailsDisplay.disabled && 'hidden'">
+                <div>
+                    <input class="p-1 col-2  text-center" x-bind:readonly="$store.statePracticeDetailsDisplay.isFirstReadonly"  x-bind:class="!$store.statePracticeDetailsDisplay.isFirstValid && 'text-danger'" x-model.number="$store.statePracticeDetailsDisplay.first" x-on:change="$store.statePracticeDetailsDisplay.processChange" type="number">
+                    <span>digits</span>
+                </div>
+                <div><span x-text="$store.statePracticeDetailsDisplay.operation" class="fs-3"></span></div>
+                <div>
+                    <input class="p-1 text-center col-2" x-model.number="$store.statePracticeDetailsDisplay.second" x-bind:class="!$store.statePracticeDetailsDisplay.isSecondValid && 'text-danger'" x-on:change="$store.statePracticeDetailsDisplay.processChange" type="number">
+                    <span>digits</span>
+                </div>
+            </div>
+            <div class="m-1 d-flex flex-row small" x-bind:class="$store.statePracticeDetailsDisplay.disabled && 'hidden'">
+                <div class="flex-fill  p-1 text-start" x-bind:class="($store.statePracticeDetailsDisplay.disabled || !$store.statePracticeDetailsDisplay.displayPrecision) && 'hidden'">
+                    Precision: <input class="p-1 flex-fill text-center col-2" x-model.number="$store.statePracticeDetailsDisplay.precision" x-on:change="$store.statePracticeDetailsDisplay.processChange" x-bind:class="!$store.statePracticeDetailsDisplay.isPrecisionValid && 'text-danger'" type="number" >
+                </div>
+            </div>
+
         </div>
     </div>    
 </div>

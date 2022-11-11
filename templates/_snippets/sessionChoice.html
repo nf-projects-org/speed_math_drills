@@ -1,8 +1,16 @@
-<div class="drill-select row text-dark p-1 justify-content-evenly">
+<div class="drill-select row text-dark m-1 mb-2 p-1 justify-content-evenly">
     <div class="col-10 text-center">
-        <div x-data class="btn-group" role="group">
-            <input type="radio" class="drill-practice-radio btn-check" name="drill-practice-radio" id="drillRadio"  checked hx-post="{% url 'drills:drill-session' %}" hx-swap="outerHTML" hx-trigger="change" hx-target=".drill-practice-display" x-on:change="$store.stateSessionChoice.reset" ><label class="btn btn-outline-primary" for="drillRadio"  >Drill Session</label>
-            <input type="radio" class="drill-practice-radio btn-check" name="drill-practice-radio" id="practiceRadio" hx-post="{% url 'drills:practice-session' %}" hx-swap="outerHTML" hx-trigger="change" hx-target=".drill-practice-display"  ><label class="btn btn-outline-primary" for="practiceRadio">Practice Session</label>
+        <div x-data class="" role="group">
+            <div class="row justify-content-between">
+                <input type="radio" class="drill-practice-radio btn-check" name="drill-practice-radio" id="drillRadio"  checked
+                    hx-post="{% url 'drills:drill-session' %}" hx-swap="outerHTML" hx-trigger="change" hx-target=".drill-practice-display"
+                 x-on:change="$store.stateSessionChoice.reset">
+               <label class="btn btn-sm btn-outline-primary rounded-pill w-25" for="drillRadio"  >Drill</label>
+                 <input type="radio" class="drill-practice-radio btn-check" name="drill-practice-radio" id="practiceRadio" 
+                    hx-post="{% url 'drills:practice-session' %}" hx-swap="outerHTML" hx-trigger="change" hx-target=".drill-practice-display" 
+                    x-on:change="$store.stateSessionChoice.reset" >
+                <label class="btn btn-sm btn-outline-primary rounded-pill w-25" for="practiceRadio">Practice</label>
+            </div>
         </div>
     </div>
 </div>
