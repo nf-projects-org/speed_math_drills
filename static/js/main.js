@@ -4,6 +4,13 @@ function isNumeric(n) {
 }
 
 document.addEventListener('alpine:init', () => {
+    Alpine.store('stateGlobal',{
+        stuck:false,
+        reset: function(){
+            let gl = Alpine.store('stateGlobal');
+            gl.reset = false;
+        },
+    });
     Alpine.store('stateSessionChoice',{
         reset: function(){
             let sd = Alpine.store('stateDrillDetailsDisplay');
@@ -11,12 +18,14 @@ document.addEventListener('alpine:init', () => {
             let scd = Alpine.store('stateCalculationDisplay');
             let sk = Alpine.store('stateKeypad');
             let sc = Alpine.store('stateCalculations');
+            let gl = Alpine.store('stateGlobal');
 
             sd.reset();
             sp.reset();
             scd.reset();
             sk.reset();
             sc.reset();
+            gl.reset();
             
         },
     });
@@ -37,7 +46,7 @@ document.addEventListener('alpine:init', () => {
         progressBarSkip:'0%',
         reset: function(){
             let sc = Alpine.store('stateCalculationDisplay');
-            sc.first = 0; sc.displayFirst = true; sc.operation = 'x'; sc.displayOperation = true; sc.second =0;
+            sc.first = 0; sc.displayFirst = true; sc.operation = '?'; sc.displayOperation = true; sc.second =0;
             sc.displaySecond = true; sc.result = ''; sc.isResultCorrect = false; sc.displayMessage = false; sc.disabled = true;
             sc.progressBarCorrect = '0%'; sc.progressBarWrong = '0%'; sc.progressBarSkip = '0%';
         },
@@ -105,6 +114,8 @@ document.addEventListener('alpine:init', () => {
         isPrecisionValid:true,
         reset: function(){
             let sd = Alpine.store('stateDrillDetailsDisplay');
+            let gl = Alpine.store('stateGlobal');
+            gl.stuck = false;
             sd.disabled = true; sd.first = 2; sd.isFirstReadonly = false; sd.isFirstValid = true; sd.drill=''; sd.second_start=1; sd.second_end=15;
             sd.isSecondStartValid = true; sd.isSecondEndValid = true; sd.random = true; sd.precision = 3; sd.displayPrecision = false; sd.isPrecisionValid = true;
         },
@@ -149,14 +160,27 @@ document.addEventListener('alpine:init', () => {
                 validated = false;
                 sd.isPrecisionValid = false;
             }
+            let global = Alpine.store('stateGlobal')
+            if (!validated){
+                global.stuck = true;    
+            } else
+            {
+                global.stuck = false;
+            }
+
             return validated;
         },
         updateDrills: function(){
             let sd = Alpine.store('stateDrillDetailsDisplay');
             let scd = Alpine.store('stateCalculationDisplay');
             let sk = Alpine.store('stateKeypad');
-
+            let gl = Alpine.store('stateGlobal');
+            
+            gl.stuck = false;
             sd.disabled = false;
+            sd.isFirstValid = true;
+            sd.isSecondStartValid = true;
+            sd.isSecondEndValid = true;
             scd.disabled = false;
             sk.disabled = false;
 
@@ -193,18 +217,19 @@ document.addEventListener('alpine:init', () => {
     Alpine.store('statePracticeDetailsDisplay', {
         disabled: true,
         first:2,
-        isFirstReadonly:false,
         isFirstValid:true,
         practice:'',
         operation:'', 
         second:2,
-        isSecondStartValid:true,
+        isSecondValid:true,
         precision:3,
         displayPrecision:false,
         isPrecisionValid:true,
         reset: function(){
             let sp = Alpine.store('statePracticeDetailsDisplay');
-            sp.disabled = true; sp.first = 2; sp.isFirstReadonly = false; sp.isFirstValid = true; sp.practice=''; sp.second=2; sp.operation ='';
+            let gl = Alpine.store('stateGlobal');
+            gl.stuck = false;
+            sp.disabled = true; sp.first = 2; sp.isFirstValid = true; sp.practice=''; sp.second=2; sp.operation ='';
             sp.isSecondValid = true; sp.precision = 3; sp.displayPrecision = false; sp.isPrecisionValid = true;
         },
         getOpChoice: function(){
@@ -242,14 +267,27 @@ document.addEventListener('alpine:init', () => {
                 validated = false;
                 sp.isPrecisionValid = false;
             }
+            let global = Alpine.store('stateGlobal')
+
+            if (!validated){
+                global.stuck = true;    
+            } else
+            {
+                global.stuck = false;
+            }
             return validated;
         },
         updatePractice: function(){
             let sp = Alpine.store('statePracticeDetailsDisplay');
             let scd = Alpine.store('stateCalculationDisplay');
             let sk = Alpine.store('stateKeypad');
-
+            let gl = Alpine.store('stateGlobal');
+            
+            gl.stuck = false;
             sp.disabled = false;
+            sp.isFirstValid = true;
+            sp.isSecondValid = true;
+            
             scd.disabled = false;
             sk.disabled = false;
 

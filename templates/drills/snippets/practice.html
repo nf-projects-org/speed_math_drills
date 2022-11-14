@@ -11,20 +11,18 @@
                     <option class="practice_type">Subtraction</option>
                 </select>
             </div>
-            <div class="m-1 mt-2 d-flex flex-row small justify-content-between align-items-center" x-bind:class="$store.statePracticeDetailsDisplay.disabled && 'hidden'">
-                <div>
-                    <input class="p-1 col-2  text-center bg-pure-black  border rounded" x-bind:readonly="$store.statePracticeDetailsDisplay.isFirstReadonly"  x-bind:class="$store.statePracticeDetailsDisplay.isFirstValid ? 'text-white' : 'text-danger'" x-model.number="$store.statePracticeDetailsDisplay.first" x-on:change="$store.statePracticeDetailsDisplay.processChange" type="number">
-                    <span>digits</span>
+            <div class="m-1 mt-2 d-flex flex-row small justify-content-evenly" x-bind:class="$store.statePracticeDetailsDisplay.disabled && 'hidden'">
+                <div class="flex-fill text-end align-self-center m-1">
+                    Digits <input class="p-1 text-center bg-pure-black col-4  border rounded"  x-bind:class="$store.statePracticeDetailsDisplay.isFirstValid ? 'text-white' : 'text-danger'" x-model.number="$store.statePracticeDetailsDisplay.first" x-on:change="$store.statePracticeDetailsDisplay.processChange" type="number" min="1" max="10">
                 </div>
-                <div><span x-text="$store.statePracticeDetailsDisplay.operation" class="fs-3"></span></div>
-                <div>
-                    <input class="p-1 text-center col-2 bg-pure-black  border rounded" x-model.number="$store.statePracticeDetailsDisplay.second" x-bind:class="$store.statePracticeDetailsDisplay.isSecondValid ? 'text-white' : 'text-danger'" x-on:change="$store.statePracticeDetailsDisplay.processChange" type="number">
-                    <span>digits</span>
+                <div class="flex-fill align-self-center text-center fs-3" x-text="$store.statePracticeDetailsDisplay.operation"></div>
+                <div class="flex-fill text-start align-self-center m-1">
+                    <input class="p-1 text-center  bg-pure-black col-4  border rounded" x-model.number="$store.statePracticeDetailsDisplay.second" x-bind:class="$store.statePracticeDetailsDisplay.isSecondValid ? 'text-white' : 'text-danger'" x-on:change="$store.statePracticeDetailsDisplay.processChange" type="number" min="1" max="10"> Digits
                 </div>
             </div>
-            <div class="m-1 d-flex flex-row small" x-bind:class="$store.statePracticeDetailsDisplay.disabled && 'hidden'">
+            <div class="m-1 row small" x-bind:class="$store.statePracticeDetailsDisplay.disabled && 'hidden'">
                 <div class="flex-fill  p-1 text-start" x-bind:class="($store.statePracticeDetailsDisplay.disabled || !$store.statePracticeDetailsDisplay.displayPrecision) && 'hidden'">
-                    Precision: <input class="p-1 flex-fill text-center col-2 bg-pure-black  border rounded" x-model.number="$store.statePracticeDetailsDisplay.precision" x-on:change="$store.statePracticeDetailsDisplay.processChange" x-bind:class="$store.statePracticeDetailsDisplay.isPrecisionValid ? 'text-white' : 'text-danger'" type="number" >
+                    Precision: <input class="p-1 flex-fill text-center col-2 bg-pure-black  border rounded" x-model.number="$store.statePracticeDetailsDisplay.precision" x-on:change="$store.statePracticeDetailsDisplay.processChange" x-bind:class="$store.statePracticeDetailsDisplay.isPrecisionValid ? 'text-white' : 'text-danger'" type="number" min="1" max="10" >
                 </div>
             </div>
 

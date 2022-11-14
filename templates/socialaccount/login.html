@@ -17,7 +17,7 @@
     
     <p>You are about to sign in using your account from {{ provider.name }}.</p>
     {% endif %}
-    <p class="">By proceeding, you agree to our <a href="{%url 'pages:terms-service' %}">Terms of Service</a> and <a href="{%url 'pages:privacy-policy' %}">Privacy Policy</a>.</p>
+    <p class="">By proceeding, you agree to our <a href="{%url 'pages:terms-service' %}" class="link-light">Terms of Service</a> and <a href="{%url 'pages:privacy-policy' %}" class="link-light">Privacy Policy</a>.</p>
     
         <form method="post">
             {% csrf_token %}

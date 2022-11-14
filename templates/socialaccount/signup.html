@@ -12,7 +12,7 @@
     <h2>Sign Up</h2>
     <p>You are about to use your {{account.get_provider.name }} account to login to
         As a final step, please complete the following form:</p>
-        <p class="">By proceeding, you agree to our <a href="{%url 'pages:terms-service' %}">Terms of Service</a> and <a href="{%url 'pages:privacy-policy' %}">Privacy Policy</a>.</p>
+        <p class="">By proceeding, you agree to our <a href="{%url 'pages:terms-service' %}" class="link-light">Terms of Service</a> and <a href="{%url 'pages:privacy-policy' %}" class="link-light">Privacy Policy</a>.</p>
         
         <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
           {% csrf_token %}

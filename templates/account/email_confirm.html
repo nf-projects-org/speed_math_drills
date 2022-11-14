@@ -14,7 +14,7 @@
             <button type="submit" class="btn btn-smd-primary w-100">Confirm</button>
         </form>
         {% else %}       
-            <p>This e-mail confirmation link has expired or is invalid. Please <a href="{% url 'account_email' %}">try again.</a></p>
+            <p>This e-mail confirmation link has expired or is invalid. Please <a href="{% url 'account_email' %} " class="link-light">try again.</a></p>
         {% endif %}
     </div>
 </div>
