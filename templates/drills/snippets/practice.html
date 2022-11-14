@@ -1,9 +1,9 @@
 {%load static%}
-<div class="drill-practice-display row bg-dark text-white  p-1 justify-content-evenly">
-    <div class="col-10  p-0 text-center align-middle small">
+<div class="drill-practice-display row bg-pure-black text-white  p-1 justify-content-evenly">
+    <div class="col-10 col-sm-10 col-md-8 p-0 text-center align-middle small">
         <div x-data class="practice-details-display">
             <div class="m-1 d-flex flex-row justify-content-between small">
-                <select class="select-form p-1 mx-1 flex-fill bg-dark text-white border rounded" x-on:change="$store.statePracticeDetailsDisplay.updatePractice" x-model="$store.statePracticeDetailsDisplay.practice" >
+                <select class="select-form p-1 mx-1 flex-fill bg-pure-black text-white border rounded" x-on:change="$store.statePracticeDetailsDisplay.updatePractice" x-model="$store.statePracticeDetailsDisplay.practice" >
                     <option value="" disabled>Choose</option>
                     <option class="practice_type">Multiplication</option>
                     <option class="practice_type">Division</option>
@@ -13,18 +13,18 @@
             </div>
             <div class="m-1 mt-2 d-flex flex-row small justify-content-between align-items-center" x-bind:class="$store.statePracticeDetailsDisplay.disabled && 'hidden'">
                 <div>
-                    <input class="p-1 col-2  text-center bg-dark text-white border rounded" x-bind:readonly="$store.statePracticeDetailsDisplay.isFirstReadonly"  x-bind:class="!$store.statePracticeDetailsDisplay.isFirstValid && 'text-danger'" x-model.number="$store.statePracticeDetailsDisplay.first" x-on:change="$store.statePracticeDetailsDisplay.processChange" type="number">
+                    <input class="p-1 col-2  text-center bg-pure-black  border rounded" x-bind:readonly="$store.statePracticeDetailsDisplay.isFirstReadonly"  x-bind:class="$store.statePracticeDetailsDisplay.isFirstValid ? 'text-white' : 'text-danger'" x-model.number="$store.statePracticeDetailsDisplay.first" x-on:change="$store.statePracticeDetailsDisplay.processChange" type="number">
                     <span>digits</span>
                 </div>
                 <div><span x-text="$store.statePracticeDetailsDisplay.operation" class="fs-3"></span></div>
                 <div>
-                    <input class="p-1 text-center col-2 bg-dark text-white border rounded" x-model.number="$store.statePracticeDetailsDisplay.second" x-bind:class="!$store.statePracticeDetailsDisplay.isSecondValid && 'text-danger'" x-on:change="$store.statePracticeDetailsDisplay.processChange" type="number">
+                    <input class="p-1 text-center col-2 bg-pure-black  border rounded" x-model.number="$store.statePracticeDetailsDisplay.second" x-bind:class="$store.statePracticeDetailsDisplay.isSecondValid ? 'text-white' : 'text-danger'" x-on:change="$store.statePracticeDetailsDisplay.processChange" type="number">
                     <span>digits</span>
                 </div>
             </div>
             <div class="m-1 d-flex flex-row small" x-bind:class="$store.statePracticeDetailsDisplay.disabled && 'hidden'">
                 <div class="flex-fill  p-1 text-start" x-bind:class="($store.statePracticeDetailsDisplay.disabled || !$store.statePracticeDetailsDisplay.displayPrecision) && 'hidden'">
-                    Precision: <input class="p-1 flex-fill text-center col-2 bg-dark text-white border rounded" x-model.number="$store.statePracticeDetailsDisplay.precision" x-on:change="$store.statePracticeDetailsDisplay.processChange" x-bind:class="!$store.statePracticeDetailsDisplay.isPrecisionValid && 'text-danger'" type="number" >
+                    Precision: <input class="p-1 flex-fill text-center col-2 bg-pure-black  border rounded" x-model.number="$store.statePracticeDetailsDisplay.precision" x-on:change="$store.statePracticeDetailsDisplay.processChange" x-bind:class="$store.statePracticeDetailsDisplay.isPrecisionValid ? 'text-white' : 'text-danger'" type="number" >
                 </div>
             </div>
 

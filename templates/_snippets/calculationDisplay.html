@@ -1,12 +1,12 @@
-<div class="row bg-dark text-white p-1 justify-content-evenly" >
-    <div x-data class="m-2 p-1 col-10 " x-bind:class="$store.stateCalculationDisplay.disabled && 'hidden'" >
+<div class="row bg-pure-black text-white p-1 justify-content-evenly" >
+    <div x-data class="m-2 p-1 col-10 col-sm-10 col-md-8" x-bind:class="$store.stateCalculationDisplay.disabled && 'hidden'" >
       <div class="text-center display-4">
         <span x-text="$store.stateCalculationDisplay.first" class="display_first" x-bind:class="!$store.stateCalculationDisplay.displayFirst && 'hidden'" ></span>
         <span x-text="$store.stateCalculationDisplay.operation" class="display_operation"></span>  
         <span  x-text="$store.stateCalculationDisplay.second" class="display_second" x-bind:class="!$store.stateCalculationDisplay.displaySecond && 'hidden'"></span>
       </div>
-      <div class="text-end m-1"><input type="text"  x-model="$store.stateCalculationDisplay.result" x-on:input="$store.stateCalculationDisplay.checkResult" x-bind:class="$store.stateCalculationDisplay.isResultCorrect ? 'text-success' : 'text-white'" class="calculationResult display_result text-end fs-4 form-control bg-dark"></div>
-      <div class="progress text-center small m-2 bg-dark">
+      <div class="text-end m-1"><input inputmode="none" type="text"  x-model="$store.stateCalculationDisplay.result" x-on:input="$store.stateCalculationDisplay.checkResult" x-bind:class="$store.stateCalculationDisplay.isResultCorrect ? 'text-success' : 'text-white'" class="calculationResult display_result text-end fs-4 form-control bg-pure-black"></div>
+      <div class="progress text-center small m-2 bg-pure-black">
         <div class="progress-bar bg-danger" role="progressbar" x-bind:style="{width: $store.stateCalculationDisplay.progressBarWrong}"></div>
         <div class="progress-bar bg-success" role="progressbar" x-bind:style="{width: $store.stateCalculationDisplay.progressBarCorrect}" ></div>
         <div class="progress-bar bg-warning" role="progressbar" x-bind:style="{'width': $store.stateCalculationDisplay.progressBarSkip}"></div>
@@ -14,6 +14,6 @@
       <div class="text-center small text-success" x-show="$store.stateCalculationDisplay.displayMessage" >
         <span >Drill Complete</span>
       </div>
-      <div class=" p-1 text-center small "><button class="btn-skip btn-sm btn" x-on:click="$store.stateCalculationDisplay.skip">></button></div>  
+      <div class=" p-1 text-center small "><button class="btn-skip btn-sm btn" ontouchstart x-on:click="$store.stateCalculationDisplay.skip" onclick="this.blur()" >></button></div>  
     </div>
   </div>
