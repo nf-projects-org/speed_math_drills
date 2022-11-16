@@ -1,22 +1,18 @@
-{% extends "_base.html" %}
+{% extends "account/_standard_account_email_password.html" %}
 {% load account %}
 {%block head_title %}Confirm Email
 {%endblock head_title %}
 
-{% block main%}
+{% block saep%}
 
-<div class="container col-sm-4 px-4 py-5">
-    <div class="container-sm">
-        {% if confirmation %}
-        <p>Your email address is {{ confirmation.email_address.email }} .</p>
-        <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-smd-primary w-100">Confirm</button>
-        </form>
-        {% else %}       
-            <p>This e-mail confirmation link has expired or is invalid. Please <a href="{% url 'account_email' %} " class="link-light">try again.</a></p>
-        {% endif %}
-    </div>
-</div>
+{% if confirmation %}
+<p>Your email address is {{ confirmation.email_address.email }} .</p>
+<form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-smd-primary w-100">Confirm</button>
+</form>
+{% else %}       
+    <p>This e-mail confirmation link has expired or is invalid. Please <a href="{% url 'account_email' %} " class="link-light">try again.</a></p>
+{% endif %}
 
-{% endblock main %}
+{% endblock saep %}

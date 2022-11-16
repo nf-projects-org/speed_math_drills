@@ -1,27 +1,23 @@
-{% extends "_base.html" %}
+{% extends "account/_standard_account_email_password.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 {%block head_title %}Manage Email
 {%endblock head_title %}
 
-{% block main%}
+{% block saep %}
 
-<div class="container col-sm-4 px-4 py-5">
-  <div class="container-sm">
-    <form action="{% url 'account_email' %}" class="email_list" method="post">
-      {% csrf_token %}
-      {% if user.emailaddress_set.all %}
-        {% for emailaddress in user.emailaddress_set.all %}            
-          <p >{{ emailaddress.email }} is {% if emailaddress.verified %} already verified{% else %}unverified</p>
-          <input name="email" type="text" hidden value="{{emailaddress.email}}">
-        <button type="submit" name="action_send" class="btn btn-smd-primary w-100 ">Re-send Verification</button>
-        {% endif %}
-        {% endfor %}
-      </form>
-    {% else %}
-    <p><strong>Warning:</strong> You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc.</p>
+<form action="{% url 'account_email' %}" class="email_list" method="post">
+  {% csrf_token %}
+  {% if user.emailaddress_set.all %}
+    {% for emailaddress in user.emailaddress_set.all %}            
+      <p >{{ emailaddress.email }} is {% if emailaddress.verified %} already verified{% else %}unverified</p>
+      <input name="email" type="text" hidden value="{{emailaddress.email}}">
+    <button type="submit" name="action_send" class="btn btn-smd-primary w-100 ">Re-send Verification</button>
     {% endif %}
-  </div>
-</div>
+    {% endfor %}
+  </form>
+{% else %}
+<p><strong>Warning:</strong> You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc.</p>
+{% endif %}
 
-{% endblock main %}
+{% endblock saep  %}

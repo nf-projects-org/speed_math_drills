@@ -1,12 +1,10 @@
-{% extends "_base.html" %}
+{% extends "account/_standard_account_email_password.html" %}
 {% load static %}
 {%block head_title %}Inactive Account
 {%endblock head_title %}
 
-{% block main%}
+{% block saep%}
 
-<div class="container col-sm-4 px-4 py-5">
-    <p class="">This account is inactive</p>
-</div>
+<p class="">This account is inactive</p>
 
-{% endblock main %}
+{% endblock saep %}

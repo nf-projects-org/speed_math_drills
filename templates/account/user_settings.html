@@ -1,15 +1,14 @@
-{% extends "_base.html" %}
+{% extends "account/_standard_account_email_password.html" %}
 {% load account %}
 {% load socialaccount %}
 {% load crispy_forms_tags %}
 {%block head_title %}User Settings
 {%endblock head_title %}
 
-{% block main%}
+{% block saep%}
 
-<div class="container col-sm-8 px-4 py-5">
-    <h5 class="">Account settings</h5>
-    <div class="container py-4 my-4 border-top border-bottom">
+    <h5 class="mt-2 text-center">Account settings</h5>
+    <div class="py-4 my-4 border-top">
         <div class="row align-items-center p-1">
             <div class="col ">Change password</div>
             <div class="col text-end col-sm-2"><a href="{% url 'account_change_password' %}" class="btn btn-smd-primary w-100">Change</a></div>
@@ -22,8 +21,6 @@
             <div class="col ">Connect social accounts</div>
             <div class="col text-end col-sm-2"><a href="{% url 'socialaccount_connections' %}" class="btn btn-smd-primary w-100">Connect</a></div>
         </div>
-
     </div>
-</div>
 
-{% endblock main %}
+{% endblock saep %}

@@ -1,19 +1,16 @@
-{% extends "_base.html" %}
+{% extends "account/_standard_account_email_password.html" %}
 {% load static %}
 {% load socialaccount %}
 {% load crispy_forms_tags %}
 {%block head_title %}Verif Email
 {%endblock head_title %}
 
-{% block main%}
+{% block saep%}
 
-<div class="container col-sm-4 px-4 py-5">
-    <div class="container-sm">
-        {% url 'account_email'%}
-        <h2>Verify your email address</h2>
-        <p>You need a verified email to proceed further. We have sent you an email for verification. Please click on the link in the email</p>
-        <p class="small py-3">If you can't find the email in your inbox or spam folder, please contact us on contact@speedmathsdrills.com</p>
-    </div>
-</div>
+{% url 'account_email'%}
+<h2 class="text-center mb-3 m-1">Verify your email address</h2>
+<p class="m-1">You need a verified email to proceed further. We have sent you an email for verification. Please click on the link in the email</p>
 
-{% endblock main %}
+<p class="small py-3">Stuck? email us at contact@speedmathsdrills.com</p>
+
+{% endblock saep %}

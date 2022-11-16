@@ -1,23 +1,19 @@
-{% extends "_base.html" %}
+{% extends "account/_standard_account_email_password.html" %}
 {% load static %}
 {% load socialaccount %}
 {% load crispy_forms_tags %}
 {%block head_title %}Log Out
 {%endblock head_title %}
 
-{% block main%}
-<div class="container col-sm-4 px-4 py-5">
+{% block saep%}
     <p class="small text-center">Practice makes permanent. See you later</p>
-    <div class="container-sm">
-        <form method="post" action="{% url 'account_logout' %}">
-            {% csrf_token %}
-            {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-            {% endif %}
-            <button type="submit" class="btn btn-smd-primary w-100 ">Log Out</button>
-        </form>
-    </div>
-</div>
+    <form method="post" action="{% url 'account_logout' %}" class="text-center">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <button type="submit" class="btn btn-smd-primary ">Log Out</button>
+    </form>
 
   
-{% endblock main %}
+{% endblock saep %}

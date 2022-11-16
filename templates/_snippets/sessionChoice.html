@@ -5,11 +5,11 @@
                 <input type="radio" class="drill-practice-radio btn-check" name="drill-practice-radio" id="drillRadio"  checked
                     hx-post="{% url 'drills:drill-session' %}" hx-swap="outerHTML" hx-trigger="change" hx-target=".drill-practice-display"
                  x-on:change="$store.stateSessionChoice.reset">
-               <label class="mx-1 btn btn-sm btn-outline-sessionChoice rounded-pill w-25" for="drillRadio"  >Drill</label>
+               <label class="mx-1 btn btn-sm btn-outline-sessionChoice rounded-pill w-25" for="drillRadio"  >Drills</label>
                  <input type="radio" class="drill-practice-radio btn-check" name="drill-practice-radio" id="practiceRadio" 
                     hx-post="{% url 'drills:practice-session' %}" hx-swap="outerHTML" hx-trigger="change" hx-target=".drill-practice-display" 
                     x-on:change="$store.stateSessionChoice.reset" >
-                <label class="mx-1 btn btn-sm btn-outline-sessionChoice rounded-pill w-25" for="practiceRadio">Practice</label>
+                <label class="mx-1 btn btn-sm btn-outline-sessionChoice rounded-pill w-25" for="practiceRadio">Test</label>
             </div>
         </div>
     </div>

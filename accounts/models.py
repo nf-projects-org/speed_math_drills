@@ -3,4 +3,4 @@ from django.db import models
 
 
 class SmdUser(AbstractUser):
-    pass
+    is_premium = models.BooleanField(default=False,blank=False)
