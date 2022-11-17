@@ -4,6 +4,7 @@
 <html class="no-js" lang="en">
 
 <head>
+  <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/8d34e193f22037621f9e13ca/script.js"></script>
   <meta charset="utf-8">
   <title>{% block head_title %}Speed Maths Drills{% endblock head_title %}</title>
   <meta name="description" content="Practice maths drills to get faster">
@@ -66,6 +67,8 @@
           <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link" aria-current="page">Login</a></li>
           <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link" aria-current="page">Sign Up</a></li>
           {% endif %}
+          <li class="nav-item"><a href="{% url 'pages:feedback' %}" class="nav-link" aria-current="page">Feedback</a></li>
+
         </ul>
       </div>
     </div>
@@ -90,6 +93,7 @@
       <div class="d-flex flex-column flex-sm-row justify-content-between my-2 border-top">
         <p>© 2022 Speed Maths Drills. | <a href="{% url 'pages:privacy-policy' %}" class="link-light">Privacy</a> | <a href="{% url 'pages:terms-service' %}" class="link-light">Terms</a></p>
         <div class="d-flex align-items-center text-center">
+          <div class="flex-fill m-1"><a href="whatsapp://send?text=https://www.speedmathsdrills.com" ><img src="{%static 'img/icon/whatsapp.png' %}" height="20"><span class="text-white"></span></a></div>
           <div class="flex-fill m-1 "><a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button " data-show-count="false">Tweet</a></div><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
           <div class=" m-1 text-center  snapchat-creative-kit-share"></div>
           <div class="flex-fill m-1  fb-share-button " data-href="https://speedmathsdrills.com" data-layout="button_count"></div>
