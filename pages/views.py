@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
+
 
 class HomePageView(TemplateView):
     template_name = 'index.html'
@@ -17,3 +19,9 @@ class FeedbackView(TemplateView):
 
 class PricingView(TemplateView):
     template_name = 'pricing.html'
+
+class PricingMonthView(TemplateView):
+    template_name = 'pricing_message.html'
+
+class PricingYearView(TemplateView):
+    template_name = 'pricing_message.html'
