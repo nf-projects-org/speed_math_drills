@@ -11,5 +11,9 @@ class PrivacyPolicyView(TemplateView):
 class TermsServiceView(TemplateView):
     template_name = 'terms-service.html'
 
+
 class FeedbackView(TemplateView):
     template_name = 'feedback.html'
+
+class PricingView(TemplateView):
+    template_name = 'pricing.html'
