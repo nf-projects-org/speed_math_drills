@@ -11,7 +11,7 @@
         <div class="progress-bar bg-success" role="progressbar" x-bind:style="{width: $store.stateCalculationDisplay.progressBarCorrect}" ></div>
         <div class="progress-bar bg-warning" role="progressbar" x-bind:style="{'width': $store.stateCalculationDisplay.progressBarSkip}"></div>
       </div>
-      <div class="text-center small text-success p-1" x-show="$store.stateCalculationDisplay.displayMessage" >
+      <div class="CompletedMessage text-center small text-success p-1" x-show="$store.stateCalculationDisplay.displayMessage" >
         <span>Completed</span>
       </div>
       <div class=" p-1 text-center small "><button class="btn-skip btn-sm btn" ontouchstart x-on:click="$store.stateCalculationDisplay.skip" x-bind:disabled="$store.stateGlobal.stuck" onclick="this.blur()" >></button></div>  
